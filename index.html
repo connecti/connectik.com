@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offre de leads qualifiés - Connectik</title>
+  <style>
+    :root {
+      --primary: #1e4ed8;
+      --secondary: #0f172a;
+      --accent: #f97316;
+      --light: #f1f5f9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--light);
+      color: var(--secondary);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      color: white;
+      padding: 4rem 1.5rem 5rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 auto 1rem;
+      max-width: 720px;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+    }
+
+    header p {
+      margin: 0 auto 2rem;
+      max-width: 680px;
+      font-size: 1.2rem;
+    }
+
+    .cta-button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      padding: 0.9rem 2.4rem;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 40px rgba(249, 115, 22, 0.45);
+    }
+
+    main {
+      max-width: 1080px;
+      margin: -3rem auto 0;
+      padding: 0 1.5rem 4rem;
+    }
+
+    section {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 30px 60px -25px rgba(15, 23, 42, 0.25);
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      margin-top: 0;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .benefit-card {
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      border-radius: 18px;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(30, 78, 216, 0.08), rgba(249, 115, 22, 0.08));
+    }
+
+    .benefit-card h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+    }
+
+    .numbers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .number-card {
+      flex: 1 1 200px;
+      padding: 1.75rem;
+      border-radius: 20px;
+      background: var(--secondary);
+      color: white;
+      text-align: center;
+      box-shadow: 0 20px 40px -20px rgba(15, 23, 42, 0.45);
+    }
+
+    .number-card strong {
+      display: block;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .pricing-card {
+      border-radius: 22px;
+      padding: 2rem 1.75rem;
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      background: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-card.highlight {
+      border: 2px solid var(--primary);
+      box-shadow: 0 35px 65px -30px rgba(30, 78, 216, 0.45);
+    }
+
+    .pricing-card h3 {
+      margin: 0 0 0.75rem;
+    }
+
+    .pricing {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0 0 1rem;
+    }
+
+    .pricing-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pricing-card li {
+      margin: 0.75rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .pricing-card li::before {
+      content: "✔";
+      color: var(--accent);
+      position: absolute;
+      left: 0;
+    }
+
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .testimonial {
+      border-radius: 18px;
+      padding: 1.75rem;
+      background: linear-gradient(135deg, rgba(30, 78, 216, 0.1), rgba(15, 23, 42, 0.1));
+    }
+
+    .testimonial p {
+      margin: 0 0 1.25rem;
+      font-style: italic;
+    }
+
+    .testimonial strong {
+      display: block;
+      color: var(--secondary);
+    }
+
+    .cta-panel {
+      text-align: center;
+      background: linear-gradient(135deg, rgba(30, 78, 216, 0.12), rgba(249, 115, 22, 0.12));
+      border: 1px solid rgba(15, 23, 42, 0.1);
+    }
+
+    .cta-panel p {
+      margin: 0 auto 2rem;
+      max-width: 680px;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem 3rem;
+      font-size: 0.9rem;
+      color: rgba(15, 23, 42, 0.65);
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding: 3rem 1.25rem 4rem;
+      }
+
+      section {
+        padding: 2rem 1.5rem;
+      }
+
+      .cta-button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Générez des ventes en continu grâce à nos leads B2B ultra qualifiés</h1>
+    <p>Connectik identifie, valide et vous livre chaque semaine des leads chauds correspondant exactement à votre cible.
+      Accélérez votre prospection sans augmenter vos équipes commerciales.</p>
+    <a class="cta-button" href="mailto:contact@connectik.com?subject=Demande%20d%27offre%20leads">Planifier un appel →</a>
+  </header>
+
+  <main>
+    <section>
+      <h2 class="section-title">Pourquoi les entreprises choisissent Connectik ?</h2>
+      <div class="benefits-grid">
+        <article class="benefit-card">
+          <h3>Qualification triple niveau</h3>
+          <p>Nos data analysts vérifient chaque contact via des signaux d’intention, des interactions récentes et des
+            données CRM pour garantir une intention d’achat réelle.</p>
+        </article>
+        <article class="benefit-card">
+          <h3>Segmentation hyper précise</h3>
+          <p>Filtres avancés : secteur, taille, technos utilisées, budget estimé, maturité. Vous recevez uniquement les
+            décideurs qui matchent vos ICP.</p>
+        </article>
+        <article class="benefit-card">
+          <h3>Livraison rapide & sécurisée</h3>
+          <p>Leads livrés chaque lundi au format CSV et directement intégrés à vos outils (HubSpot, Pipedrive, Salesforce)
+            via nos connecteurs.</p>
+        </article>
+        <article class="benefit-card">
+          <h3>Conformité RGPD totale</h3>
+          <p>Processus documenté, consentement vérifié et stockage sur serveurs européens. Vous restez 100 % conforme aux
+            régulations.</p>
+        </article>
+      </div>
+      <div class="numbers">
+        <div class="number-card">
+          <strong>92 %</strong>
+          <span>de nos clients renouvellent leurs campagnes après 3 mois.</span>
+        </div>
+        <div class="number-card">
+          <strong>+38 %</strong>
+          <span>de taux de conversion moyen sur le pipeline commercial.</span>
+        </div>
+        <div class="number-card">
+          <strong>72 h</strong>
+          <span>pour lancer votre première livraison de leads qualifiés.</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Nos packs de leads</h2>
+      <div class="pricing-grid">
+        <article class="pricing-card">
+          <h3>Starter</h3>
+          <p class="pricing">690 € / 50 leads</p>
+          <ul>
+            <li>Leads B2B ciblés France & Europe francophone</li>
+            <li>Qualification intention et contact direct</li>
+            <li>Rapport hebdomadaire de performance</li>
+          </ul>
+        </article>
+        <article class="pricing-card highlight">
+          <h3>Scale</h3>
+          <p class="pricing">1 190 € / 120 leads</p>
+          <ul>
+            <li>Segments multi-personae pour votre tunnel</li>
+            <li>Intégration CRM & séquences automatisées</li>
+            <li>Score prédictif sur la probabilité de closing</li>
+            <li>Support dédié par un Customer Success</li>
+          </ul>
+        </article>
+        <article class="pricing-card">
+          <h3>Sur-mesure</h3>
+          <p class="pricing">Sur devis</p>
+          <ul>
+            <li>Leads internationaux multi-langues</li>
+            <li>Sources exclusives & signaux d’intention premium</li>
+            <li>Workflows personnalisés & enrichissement spécifique</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Ils accélèrent déjà avec Connectik</h2>
+      <div class="testimonials">
+        <article class="testimonial">
+          <p>"En trois semaines, nous avons doublé notre pipeline qualifié. Les leads reçus sont prêts pour une démo, ce
+            qui réduit notre cycle de vente de 40 %."</p>
+          <strong>Camille R., Directrice Commerciale SaaS</strong>
+        </article>
+        <article class="testimonial">
+          <p>"Les données sont ultra fraîches et conformes. L’intégration avec HubSpot est fluide, nos SDR peuvent se
+            concentrer sur la conversion."</p>
+          <strong>Julien M., Growth Manager</strong>
+        </article>
+        <article class="testimonial">
+          <p>"Le pack sur-mesure nous offre des leads exclusifs à très forte intention. Le ROI est atteint dès le premier
+            mois."</p>
+          <strong>Sarah L., Head of Sales</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta-panel">
+      <h2 class="section-title">Prêt à booster votre acquisition ?</h2>
+      <p>Décrivez-nous votre persona idéal et vos objectifs commerciaux. Nous préparons un plan d’acquisition à 30 jours
+        avec une estimation du volume de leads livrés et du ROI attendu.</p>
+      <a class="cta-button" href="https://cal.com/connectik/leads">Réserver une session découverte</a>
+    </section>
+  </main>
+
+  <footer>
+    © 2024 Connectik – Génération de leads B2B conforme RGPD. | contact@connectik.com | +33 1 86 26 98 42
+  </footer>
+</body>
+</html>
