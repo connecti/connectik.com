@@ -1,677 +1,1180 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Commune d'Enghien · Guichet Intelligent IA</title>
-  <style>
-    :root {
-      --green:   #1a6b3c;
-      --green2:  #23a05a;
-      --gold:    #c8971a;
-      --dark:    #0d1f17;
-      --light:   #f4f9f6;
-      --white:   #ffffff;
-      --gray:    #6b7c74;
-      --border:  rgba(26,107,60,.15);
-      --shadow:  0 24px 56px -20px rgba(13,31,23,.22);
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;background:var(--light);color:var(--dark);line-height:1.65}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enghien-Edingen — Administration communale</title>
+<meta name="description" content="Site officiel de la commune d'Enghien-Edingen. Démarches, rendez-vous, actualités et services aux citoyens.">
+<style>
+:root{
+  --g:#1a6b3c;--gd:#124d2c;--gl:#e8f4ed;--gold:#c8971a;
+  --dk:#12201a;--gr:#5c6e63;--bd:rgba(26,107,60,.13);
+  --wh:#fff;--bg:#f4f8f5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--dk);line-height:1.6}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
 
-    /* ── NAV ── */
-    nav{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;gap:1rem}
-    .nav-brand{display:flex;align-items:center;gap:.75rem;font-weight:700;font-size:1.1rem;color:var(--green);text-decoration:none}
-    .nav-brand svg{flex-shrink:0}
-    .nav-links{display:flex;gap:1.5rem;list-style:none}
-    .nav-links a{color:var(--gray);text-decoration:none;font-size:.9rem;transition:color .2s}
-    .nav-links a:hover{color:var(--green)}
-    .nav-cta{background:var(--green);color:#fff;border:none;border-radius:8px;padding:.5rem 1.25rem;font-size:.9rem;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap}
+/* TOPBAR */
+.topbar{background:var(--gd);color:rgba(255,255,255,.82);font-size:.8rem;padding:.45rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+.topbar a{color:rgba(255,255,255,.82);transition:color .15s}.topbar a:hover{color:#fff}
+.tb-left{display:flex;gap:1.25rem;align-items:center}
+.tb-right{display:flex;gap:.75rem;align-items:center}
+.lang{background:rgba(255,255,255,.15);border:none;color:rgba(255,255,255,.82);padding:.15rem .5rem;border-radius:4px;font-size:.77rem;cursor:pointer}
+.lang.on{background:rgba(255,255,255,.32);color:#fff;font-weight:700}
 
-    /* ── HERO ── */
-    .hero{background:linear-gradient(140deg,var(--dark) 0%,var(--green) 100%);color:#fff;padding:5rem 2rem 6rem;text-align:center;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
-    .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:.35rem 1rem;font-size:.8rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1.5rem}
-    .hero h1{max-width:760px;margin:0 auto 1.25rem;font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.15;font-weight:800}
-    .hero h1 em{font-style:normal;color:#7be9ae}
-    .hero p{max-width:600px;margin:0 auto 2.5rem;font-size:1.15rem;opacity:.88}
-    .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-    .btn-white{background:#fff;color:var(--green);border:none;border-radius:10px;padding:.8rem 2rem;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s}
-    .btn-white:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.25)}
-    .btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.55);border-radius:10px;padding:.78rem 2rem;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;transition:background .2s}
-    .btn-outline:hover{background:rgba(255,255,255,.12)}
+/* NAV */
+nav{background:var(--wh);box-shadow:0 2px 10px rgba(0,0,0,.07);position:sticky;top:0;z-index:200}
+.nav-in{max-width:1200px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;gap:1.5rem}
+.logo{display:flex;align-items:center;gap:.65rem;padding:.65rem 0;flex-shrink:0}
+.logo-sq{width:44px;height:44px;background:var(--g);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem}
+.logo-t strong{display:block;font-size:1rem;color:var(--g);font-weight:800;line-height:1.1}
+.logo-t span{font-size:.7rem;color:var(--gr)}
+.nav-menu{display:flex;list-style:none;margin:0;padding:0;flex:1}
+.nav-menu>li{position:relative}
+.nav-menu>li>a{display:flex;align-items:center;gap:.25rem;padding:1rem 1rem;font-size:.88rem;font-weight:600;color:var(--dk);border-bottom:3px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap}
+.nav-menu>li>a:hover,.nav-menu>li>a.cur{color:var(--g);border-bottom-color:var(--g)}
+.drop{position:absolute;top:100%;left:0;background:var(--wh);border:1px solid var(--bd);border-top:2px solid var(--g);border-radius:0 0 10px 10px;box-shadow:0 10px 30px rgba(0,0,0,.1);min-width:210px;opacity:0;visibility:hidden;transform:translateY(-4px);transition:all .18s;z-index:300}
+.nav-menu>li:hover .drop{opacity:1;visibility:visible;transform:translateY(0)}
+.drop a{display:block;padding:.6rem 1.1rem;font-size:.85rem;color:var(--dk);border-left:3px solid transparent;transition:all .12s}
+.drop a:hover{background:var(--gl);color:var(--g);border-left-color:var(--g)}
+.nav-acts{margin-left:auto;display:flex;gap:.6rem;align-items:center}
+.btn-g{background:var(--g);color:#fff;border:none;border-radius:7px;padding:.5rem 1.1rem;font-size:.85rem;font-weight:700;transition:background .15s}
+.btn-g:hover{background:var(--gd)}
+.btn-o{background:transparent;color:var(--g);border:2px solid var(--g);border-radius:7px;padding:.45rem 1.1rem;font-size:.85rem;font-weight:700;transition:all .15s}
+.btn-o:hover{background:var(--gl)}
+.burger{display:none;background:none;border:none;font-size:1.4rem;color:var(--dk);padding:.35rem}
 
-    /* ── STATS BANNER ── */
-    .stats-banner{background:var(--white);border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;justify-content:center;gap:0}
-    .stat-item{flex:1 1 200px;text-align:center;padding:1.75rem 1.5rem;border-right:1px solid var(--border)}
-    .stat-item:last-child{border-right:none}
-    .stat-num{font-size:2rem;font-weight:800;color:var(--green);line-height:1}
-    .stat-label{font-size:.82rem;color:var(--gray);margin-top:.35rem}
+/* HERO */
+.hero{background:linear-gradient(130deg,var(--gd) 0%,var(--g) 65%,#2e9a58 100%);color:#fff;padding:3.5rem 1.5rem 4.5rem;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;right:-80px;top:-80px;width:420px;height:420px;background:rgba(255,255,255,.04);border-radius:50%}
+.hero-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 440px;gap:2.5rem;align-items:center}
+.hero h1{font-size:clamp(1.8rem,3.5vw,2.7rem);font-weight:800;line-height:1.2;margin-bottom:.85rem}
+.hero h1 em{font-style:normal;color:#9de8b8}
+.hero p{font-size:1rem;opacity:.88;margin-bottom:1.75rem;max-width:460px}
+.hero-quick{display:flex;flex-wrap:wrap;gap:.5rem}
+.hq-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);color:#fff;border-radius:99px;padding:.35rem .9rem;font-size:.8rem;font-weight:600;transition:background .15s}
+.hq-btn:hover{background:rgba(255,255,255,.28)}
+.search-card{background:var(--wh);border-radius:16px;padding:1.5rem;box-shadow:0 24px 60px rgba(0,0,0,.22)}
+.sc-label{font-size:.82rem;font-weight:700;color:var(--g);margin-bottom:.65rem;display:block}
+.sc-row{display:flex;gap:.4rem}
+.sc-input{flex:1;border:2px solid var(--bd);border-radius:8px;padding:.65rem .9rem;font-size:.9rem;outline:none;transition:border-color .15s}
+.sc-input:focus{border-color:var(--g)}
+.sc-btn{background:var(--g);color:#fff;border:none;border-radius:8px;padding:.65rem 1.1rem;font-weight:700;font-size:.88rem;transition:background .15s}
+.sc-btn:hover{background:var(--gd)}
+.sc-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.85rem}
+.sc-tag{font-size:.76rem;background:var(--gl);color:var(--g);border:1px solid rgba(26,107,60,.2);border-radius:99px;padding:.2rem .65rem;cursor:pointer;transition:all .15s}
+.sc-tag:hover{background:var(--g);color:#fff}
 
-    /* ── SECTION WRAPPER ── */
-    .section{max-width:1100px;margin:0 auto;padding:4rem 2rem}
-    .section-tag{display:inline-block;background:rgba(26,107,60,.1);color:var(--green);border-radius:6px;padding:.25rem .75rem;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.75rem}
-    .section h2{font-size:clamp(1.7rem,3.5vw,2.4rem);font-weight:800;line-height:1.2;margin-bottom:1rem}
-    .section p.lead{color:var(--gray);font-size:1.05rem;max-width:640px;margin-bottom:2.5rem}
+/* ALERT BANNER */
+.alert-bar{background:#fff8e1;border-bottom:2px solid var(--gold);padding:.6rem 1.5rem}
+.alert-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:.75rem;font-size:.83rem}
+.alert-in strong{color:var(--gold)}
 
-    /* ── PAIN POINTS ── */
-    .pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
-    .pain-card{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:1.75rem;display:flex;gap:1rem;align-items:flex-start}
-    .pain-icon{flex-shrink:0;width:44px;height:44px;background:rgba(200,55,55,.1);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
-    .pain-icon.ok{background:rgba(26,107,60,.1)}
-    .pain-body h4{font-size:1rem;font-weight:700;margin-bottom:.35rem}
-    .pain-body p{font-size:.88rem;color:var(--gray);line-height:1.55}
-    .pain-body .tag-bad{font-size:.75rem;font-weight:700;background:rgba(200,55,55,.1);color:#c03030;border-radius:4px;padding:.15rem .5rem;display:inline-block;margin-top:.5rem}
-    .pain-body .tag-good{font-size:.75rem;font-weight:700;background:rgba(26,107,60,.12);color:var(--green);border-radius:4px;padding:.15rem .5rem;display:inline-block;margin-top:.5rem}
+/* SERVICES */
+.sec{padding:3.5rem 1.5rem}
+.sec-in{max-width:1200px;margin:0 auto}
+.sec-hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:1.75rem}
+.sec-hd h2{font-size:1.55rem;font-weight:800}
+.sec-hd h2 span{color:var(--g)}
+.see-all{font-size:.85rem;color:var(--g);font-weight:600}.see-all:hover{text-decoration:underline}
+.srv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem}
+.srv{background:var(--wh);border:1px solid var(--bd);border-radius:14px;padding:1.4rem 1rem;text-align:center;transition:all .18s;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.srv:hover{border-color:var(--g);box-shadow:0 8px 28px rgba(26,107,60,.18);transform:translateY(-2px)}
+.srv:hover .srv-ic{background:var(--g);color:#fff}
+.srv-ic{width:50px;height:50px;background:var(--gl);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin:0 auto .7rem;transition:all .18s}
+.srv h3{font-size:.83rem;font-weight:700;line-height:1.35;color:var(--dk)}
 
-    /* ── AGENTS CARDS ── */
-    .agents-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.75rem}
-    .agent-card{background:var(--white);border:1px solid var(--border);border-radius:22px;padding:2rem;box-shadow:var(--shadow);position:relative;overflow:hidden}
-    .agent-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green),var(--green2))}
-    .agent-card h3{font-size:1.15rem;font-weight:800;margin:.75rem 0 .5rem}
-    .agent-card p{font-size:.9rem;color:var(--gray);margin-bottom:1rem}
-    .agent-card ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:.5rem}
-    .agent-card li{font-size:.87rem;padding-left:1.4rem;position:relative;color:var(--dark)}
-    .agent-card li::before{content:"→";position:absolute;left:0;color:var(--green2);font-weight:700}
-    .agent-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(26,107,60,.08);color:var(--green);border-radius:6px;padding:.2rem .65rem;font-size:.76rem;font-weight:700;letter-spacing:.03em}
-    .roi-pill{float:right;background:var(--gold);color:#fff;border-radius:99px;padding:.2rem .75rem;font-size:.76rem;font-weight:700}
+/* NEWS */
+.news-sec{background:var(--bg);padding:3.5rem 1.5rem}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem}
+.news-card{background:var(--wh);border-radius:14px;overflow:hidden;box-shadow:0 2px 14px rgba(0,0,0,.06);transition:all .18s;display:block;color:var(--dk)}
+.news-card:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(26,107,60,.14)}
+.nc-img{height:150px;display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+.nc-img.g1{background:linear-gradient(135deg,#1a5c30,#2e9a58)}
+.nc-img.g2{background:linear-gradient(135deg,#1a4060,#2e7ab8)}
+.nc-img.g3{background:linear-gradient(135deg,#5c3d1a,#c8791a)}
+.nc-body{padding:1.1rem}
+.nc-cat{font-size:.72rem;font-weight:700;color:var(--g);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem}
+.nc-body h3{font-size:.95rem;font-weight:700;line-height:1.4;margin-bottom:.4rem}
+.nc-body p{font-size:.82rem;color:var(--gr)}
+.nc-date{font-size:.75rem;color:var(--gr);margin-top:.6rem}
 
-    /* ── CHATBOT DEMO ── */
-    .chat-section{background:linear-gradient(135deg,var(--dark),var(--green) 180%);padding:4rem 2rem}
-    .chat-wrapper{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
-    .chat-copy{color:#fff}
-    .chat-copy .section-tag{background:rgba(255,255,255,.15);color:#fff}
-    .chat-copy h2{font-size:clamp(1.7rem,3.5vw,2.2rem);font-weight:800;line-height:1.2;margin-bottom:1rem}
-    .chat-copy p{opacity:.85;margin-bottom:1.5rem;font-size:.97rem}
-    .chat-feature{display:flex;gap:.75rem;margin-bottom:1rem;align-items:flex-start}
-    .chat-feature-icon{width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1rem}
-    .chat-feature p{font-size:.88rem;opacity:.85;margin:0}
-    .chat-feature strong{display:block;color:#fff;font-size:.92rem}
-    .chat-widget{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.45)}
-    .chat-header{background:var(--green);color:#fff;padding:1rem 1.25rem;display:flex;align-items:center;gap:.75rem}
-    .chat-avatar{width:38px;height:38px;background:rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
-    .chat-title{font-weight:700;font-size:.95rem}
-    .chat-subtitle{font-size:.75rem;opacity:.8}
-    .online-dot{width:8px;height:8px;background:#4ade80;border-radius:50%;margin-left:auto;box-shadow:0 0 6px #4ade80}
-    .chat-body{padding:1.25rem;display:flex;flex-direction:column;gap:.85rem;background:#f9fafb;min-height:320px}
-    .msg{max-width:82%;display:flex;flex-direction:column;gap:.25rem}
-    .msg.bot{align-self:flex-start}
-    .msg.user{align-self:flex-end}
-    .msg-bubble{padding:.65rem 1rem;border-radius:14px;font-size:.88rem;line-height:1.5}
-    .msg.bot .msg-bubble{background:#fff;border:1px solid var(--border);color:var(--dark);border-bottom-left-radius:4px}
-    .msg.user .msg-bubble{background:var(--green);color:#fff;border-bottom-right-radius:4px}
-    .msg-time{font-size:.7rem;color:var(--gray);padding:0 .25rem}
-    .msg.user .msg-time{text-align:right}
-    .chip-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.25rem}
-    .chip{background:#fff;border:1px solid var(--border);border-radius:99px;padding:.3rem .85rem;font-size:.8rem;cursor:pointer;color:var(--green);font-weight:600;transition:background .2s}
-    .chip:hover{background:rgba(26,107,60,.08)}
-    .chat-input-row{display:flex;gap:.5rem;padding:1rem;border-top:1px solid var(--border);background:#fff}
-    .chat-input{flex:1;border:1px solid var(--border);border-radius:8px;padding:.6rem .9rem;font-size:.88rem;outline:none}
-    .chat-input:focus{border-color:var(--green2)}
-    .chat-send{background:var(--green);color:#fff;border:none;border-radius:8px;padding:.6rem 1rem;font-weight:700;cursor:pointer;font-size:.88rem}
+/* EVENTS */
+.ev-list{display:flex;flex-direction:column;gap:.85rem}
+.ev-item{background:var(--wh);border:1px solid var(--bd);border-radius:13px;padding:1.1rem 1.25rem;display:flex;gap:1.1rem;align-items:flex-start;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.ev-dt{background:var(--g);color:#fff;border-radius:9px;padding:.5rem .7rem;text-align:center;min-width:52px;flex-shrink:0}
+.ev-dt strong{display:block;font-size:1.3rem;line-height:1}
+.ev-dt span{font-size:.68rem;text-transform:uppercase;letter-spacing:.04em}
+.ev-body h4{font-size:.93rem;font-weight:700;margin-bottom:.2rem}
+.ev-body p{font-size:.82rem;color:var(--gr)}
+.ev-tag{display:inline-block;background:var(--gl);color:var(--g);border-radius:4px;padding:.12rem .45rem;font-size:.72rem;font-weight:600;margin-bottom:.3rem}
+.ev-reg{background:var(--g);color:#fff;border:none;border-radius:6px;padding:.3rem .75rem;font-size:.78rem;font-weight:600;margin-top:.5rem;transition:background .15s}
+.ev-reg:hover{background:var(--gd)}
 
-    /* ── ROI TIMELINE ── */
-    .roi-section{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-    .timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border-radius:16px;overflow:hidden;margin-top:2rem}
-    .timeline-col{background:var(--white);padding:2rem 1.5rem}
-    .t-month{font-size:.78rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
-    .t-title{font-size:1.05rem;font-weight:800;margin-bottom:.75rem}
-    .t-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:.5rem}
-    .t-list li{font-size:.86rem;color:var(--gray);padding-left:1.2rem;position:relative}
-    .t-list li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
-    .t-kpi{margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)}
-    .t-kpi strong{display:block;font-size:1.6rem;font-weight:800;color:var(--green);line-height:1}
-    .t-kpi span{font-size:.8rem;color:var(--gray)}
+/* EMERGENCY */
+.emer-sec{background:var(--gd);color:#fff;padding:3rem 1.5rem}
+.emer-in{max-width:1200px;margin:0 auto}
+.emer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.85rem;margin-top:1.5rem}
+.emer-card{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:1.1rem;text-align:center}
+.emer-ico{font-size:1.7rem;margin-bottom:.35rem}
+.emer-card h4{font-size:.83rem;font-weight:700;margin-bottom:.15rem}
+.emer-num{font-size:1.25rem;font-weight:800;color:#7be9ae}
+.emer-card p{font-size:.72rem;opacity:.72;margin-top:.2rem}
 
-    /* ── COMPARE TABLE ── */
-    .compare-wrap{overflow-x:auto;margin-top:2rem}
-    table{width:100%;border-collapse:collapse;font-size:.9rem}
-    thead th{background:var(--dark);color:#fff;padding:1rem 1.25rem;text-align:left;font-weight:700}
-    thead th:first-child{border-radius:12px 0 0 0}
-    thead th:last-child{border-radius:0 12px 0 0}
-    tbody tr:nth-child(odd){background:var(--light)}
-    tbody td{padding:.9rem 1.25rem;border-bottom:1px solid var(--border);vertical-align:top}
-    tbody td:first-child{font-weight:600}
-    .bad{color:#c03030}
-    .good{color:var(--green);font-weight:700}
+/* FOOTER */
+footer{background:var(--dk);color:rgba(255,255,255,.75);padding:3rem 1.5rem 1.25rem}
+.ft-in{max-width:1200px;margin:0 auto}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
+.ft-brand .ft-logo{display:flex;align-items:center;gap:.6rem;margin-bottom:.85rem}
+.ft-logo-sq{width:38px;height:38px;background:var(--g);border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem}
+.ft-logo strong{color:#fff;font-size:.95rem}
+.ft-brand p{font-size:.82rem;line-height:1.65;margin-bottom:.85rem}
+.ft-contacts{display:flex;flex-direction:column;gap:.35rem;font-size:.82rem}
+.ft-contacts a{color:rgba(255,255,255,.72)}.ft-contacts a:hover{color:#fff}
+.ft-col h4{color:#fff;font-size:.88rem;font-weight:700;margin-bottom:.85rem}
+.ft-col ul{list-style:none}.ft-col li{margin-bottom:.4rem}
+.ft-col li a{font-size:.82rem;color:rgba(255,255,255,.68)}.ft-col li a:hover{color:#fff}
+.ft-btm{border-top:1px solid rgba(255,255,255,.1);padding-top:1.1rem;display:flex;justify-content:space-between;align-items:center;font-size:.77rem;opacity:.55;flex-wrap:wrap;gap:.5rem}
+.ft-hours{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.75rem 1rem;font-size:.82rem;margin-top:.85rem}
+.ft-hours strong{display:block;color:#7be9ae;margin-bottom:.35rem}
 
-    /* ── PRICING ── */
-    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.75rem;margin-top:2.5rem}
-    .price-card{background:var(--white);border:1px solid var(--border);border-radius:22px;padding:2rem 1.75rem}
-    .price-card.featured{border:2px solid var(--green);box-shadow:var(--shadow)}
-    .price-card h3{font-size:1.1rem;font-weight:800}
-    .price-amount{font-size:2.2rem;font-weight:800;color:var(--green);line-height:1;margin:.5rem 0}
-    .price-amount span{font-size:1rem;font-weight:400;color:var(--gray)}
-    .price-card ul{list-style:none;padding:0;margin:1.25rem 0;display:flex;flex-direction:column;gap:.6rem}
-    .price-card li{font-size:.88rem;padding-left:1.4rem;position:relative}
-    .price-card li::before{content:"✔";position:absolute;left:0;color:var(--green2)}
-    .price-btn{display:block;text-align:center;background:var(--green);color:#fff;border-radius:10px;padding:.75rem;font-weight:700;text-decoration:none;margin-top:1.25rem;transition:opacity .2s}
-    .price-btn:hover{opacity:.88}
-    .price-btn.outline{background:transparent;border:2px solid var(--green);color:var(--green)}
+/* MODALS */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:900;display:none;align-items:center;justify-content:center;padding:1rem}
+.modal.open{display:flex}
+.modal-box{background:var(--wh);border-radius:18px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.modal-hd{background:var(--g);color:#fff;padding:1.25rem 1.5rem;display:flex;justify-content:space-between;align-items:center;border-radius:18px 18px 0 0}
+.modal-hd h3{font-size:1.05rem;font-weight:800}
+.modal-close{background:none;border:none;color:rgba(255,255,255,.75);font-size:1.3rem;cursor:pointer;line-height:1}
+.modal-body{padding:1.5rem}
+.form-row{margin-bottom:1.1rem}
+.form-row label{display:block;font-size:.85rem;font-weight:700;margin-bottom:.4rem;color:var(--dk)}
+.form-row input,.form-row select,.form-row textarea{width:100%;border:2px solid var(--bd);border-radius:8px;padding:.65rem .9rem;font-size:.9rem;font-family:inherit;outline:none;transition:border-color .15s;background:var(--wh)}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--g)}
+.form-row textarea{resize:vertical;min-height:100px}
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-hint{font-size:.76rem;color:var(--gr);margin-top:.3rem}
+.form-submit{background:var(--g);color:#fff;border:none;border-radius:9px;padding:.75rem 2rem;font-size:.95rem;font-weight:700;width:100%;transition:background .15s}
+.form-submit:hover{background:var(--gd)}
+.form-success{display:none;text-align:center;padding:2rem}
+.form-success .fs-ico{font-size:3rem;margin-bottom:.75rem}
+.form-success h4{font-size:1.1rem;font-weight:800;color:var(--g);margin-bottom:.5rem}
+.form-success p{font-size:.88rem;color:var(--gr)}
 
-    /* ── FOOTER ── */
-    footer{background:var(--dark);color:rgba(255,255,255,.7);text-align:center;padding:2.5rem 2rem;font-size:.85rem}
-    footer a{color:rgba(255,255,255,.6);text-decoration:none}
+/* CALENDAR */
+.cal-services{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1.25rem}
+.cal-srv{border:2px solid var(--bd);border-radius:10px;padding:.65rem .85rem;font-size:.83rem;font-weight:600;background:var(--wh);text-align:left;transition:all .15s;display:flex;align-items:center;gap:.5rem}
+.cal-srv:hover,.cal-srv.sel{border-color:var(--g);background:var(--gl);color:var(--g)}
+.cal-title{font-size:.82rem;font-weight:700;color:var(--gr);margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.04em}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:1.1rem}
+.cal-day-name{text-align:center;font-size:.72rem;font-weight:700;color:var(--gr);padding:.25rem 0}
+.cal-day{text-align:center;padding:.4rem .2rem;border-radius:7px;font-size:.83rem;cursor:pointer;transition:all .15s;border:1px solid transparent}
+.cal-day:hover:not(.empty):not(.past){background:var(--gl);color:var(--g);border-color:rgba(26,107,60,.3)}
+.cal-day.sel{background:var(--g);color:#fff}
+.cal-day.today{font-weight:800;color:var(--g)}
+.cal-day.empty,.cal-day.past{color:rgba(0,0,0,.2);cursor:default}
+.time-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1.1rem}
+.ts{border:2px solid var(--bd);border-radius:8px;padding:.45rem;text-align:center;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .15s}
+.ts:hover:not(.full){border-color:var(--g);background:var(--gl);color:var(--g)}
+.ts.sel{background:var(--g);color:#fff;border-color:var(--g)}
+.ts.full{color:rgba(0,0,0,.3);cursor:not-allowed;text-decoration:line-through}
+.cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
+.cal-nav button{background:none;border:1px solid var(--bd);border-radius:7px;padding:.3rem .6rem;cursor:pointer;font-size:.9rem;transition:all .15s}
+.cal-nav button:hover{border-color:var(--g);color:var(--g)}
+.cal-nav strong{font-size:.9rem;font-weight:700}
+.rdv-step{display:none}.rdv-step.active{display:block}
+.step-bar{display:flex;gap:0;margin-bottom:1.5rem}
+.step-item{flex:1;text-align:center;font-size:.72rem;font-weight:700;padding:.4rem .5rem;color:rgba(0,0,0,.3);border-bottom:3px solid var(--bd);position:relative}
+.step-item.done{color:var(--g);border-bottom-color:var(--g)}
+.step-item.active{color:var(--g);border-bottom-color:var(--g)}
 
-    /* ── CHAT ANIMATION ── */
-    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-    .msg{animation:fadeUp .3s ease both}
+/* CHATBOT */
+#cb-btn{position:fixed;bottom:1.75rem;right:1.75rem;z-index:500;width:58px;height:58px;background:var(--g);border-radius:50%;border:none;color:#fff;font-size:1.5rem;box-shadow:0 8px 28px rgba(26,107,60,.45);transition:transform .18s;display:flex;align-items:center;justify-content:center}
+#cb-btn:hover{transform:scale(1.08)}
+.cb-notif{position:absolute;top:-3px;right:-3px;width:17px;height:17px;background:#e74c3c;border-radius:50%;font-size:.6rem;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center}
+#cb-win{position:fixed;bottom:5.5rem;right:1.75rem;z-index:499;width:370px;max-height:580px;background:var(--wh);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.22);display:none;flex-direction:column;overflow:hidden}
+#cb-win.open{display:flex}
+.cbh{background:var(--g);color:#fff;padding:.9rem 1.1rem;display:flex;align-items:center;gap:.65rem;flex-shrink:0}
+.cbh-av{width:38px;height:38px;background:rgba(255,255,255,.22);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.cbh-info strong{display:block;font-size:.9rem}
+.cbh-info span{font-size:.72rem;opacity:.85}
+.cbh-dot{width:8px;height:8px;background:#4ade80;border-radius:50%;box-shadow:0 0 6px #4ade80;margin-left:auto;flex-shrink:0}
+.cb-x{background:none;border:none;color:rgba(255,255,255,.7);font-size:1.1rem;cursor:pointer;margin-left:.4rem}
+.cb-msgs{flex:1;overflow-y:auto;padding:.9rem;display:flex;flex-direction:column;gap:.7rem;background:#f8faf8}
+.cb-msg{max-width:87%;display:flex;flex-direction:column;gap:.18rem}
+.cb-msg.bot{align-self:flex-start}
+.cb-msg.user{align-self:flex-end}
+.cb-bbl{padding:.6rem .9rem;border-radius:12px;font-size:.84rem;line-height:1.55}
+.cb-msg.bot .cb-bbl{background:var(--wh);border:1px solid var(--bd);border-bottom-left-radius:3px}
+.cb-msg.user .cb-bbl{background:var(--g);color:#fff;border-bottom-right-radius:3px}
+.cb-time{font-size:.67rem;color:var(--gr);padding:0 .2rem}
+.cb-msg.user .cb-time{text-align:right}
+.cb-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.35rem}
+.cb-chip{background:var(--wh);border:1px solid rgba(26,107,60,.28);border-radius:99px;padding:.25rem .72rem;font-size:.77rem;color:var(--g);font-weight:600;cursor:pointer;transition:all .14s}
+.cb-chip:hover{background:var(--g);color:#fff}
+.cb-cats{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;margin-top:.35rem}
+.cb-cat{background:var(--wh);border:1px solid var(--bd);border-radius:9px;padding:.45rem .65rem;font-size:.79rem;cursor:pointer;display:flex;align-items:center;gap:.35rem;transition:all .14s;text-align:left}
+.cb-cat:hover{border-color:var(--g);background:var(--gl);color:var(--g)}
+.cb-typing .cb-bbl::after{content:"...";animation:dots 1.2s infinite}
+@keyframes dots{0%,100%{content:"..."}33%{content:"."}66%{content:".."}  }
+.cb-input-row{display:flex;gap:.4rem;padding:.7rem .9rem;border-top:1px solid var(--bd);background:var(--wh);flex-shrink:0}
+.cb-input{flex:1;border:1.5px solid var(--bd);border-radius:7px;padding:.5rem .8rem;font-size:.85rem;outline:none;font-family:inherit}
+.cb-input:focus{border-color:var(--g)}
+.cb-send{background:var(--g);color:#fff;border:none;border-radius:7px;padding:.5rem .9rem;font-weight:700;font-size:.85rem;transition:background .15s}
+.cb-send:hover{background:var(--gd)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.cb-msg{animation:fadeUp .22s ease both}
 
-    @media(max-width:768px){
-      .chat-wrapper{grid-template-columns:1fr}
-      .timeline{grid-template-columns:1fr}
-      nav .nav-links{display:none}
-    }
-    @media(max-width:480px){
-      .hero{padding:3rem 1.25rem 4rem}
-    }
-  </style>
+/* RESPONSIVE */
+@media(max-width:960px){
+  .hero-in{grid-template-columns:1fr}.search-card{display:none}
+  .ft-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .topbar{display:none}.nav-menu{display:none}
+  .nav-menu.mob-open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--wh);padding:1rem;box-shadow:0 8px 20px rgba(0,0,0,.1);z-index:300}
+  .burger{display:block}
+  .drop{position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;border:none;background:var(--bg);border-radius:8px;margin:.25rem 0}
+  .ft-grid{grid-template-columns:1fr}
+  #cb-win{width:calc(100vw - 2rem);right:1rem;bottom:5rem}
+  .form-2col{grid-template-columns:1fr}
+  .cal-services{grid-template-columns:1fr}
+  .time-slots{grid-template-columns:repeat(4,1fr)}
+}
+</style>
 </head>
 <body>
 
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="tb-left">
+    <span>📞 <a href="tel:+3223971450">02 397 14 50</a></span>
+    <span>✉️ <a href="mailto:info@enghien-edingen.be">info@enghien-edingen.be</a></span>
+    <span>🕐 Lun–Ven 8h15–12h · Lun–Jeu 13h30–16h</span>
+  </div>
+  <div class="tb-right">
+    <button class="lang on" onclick="setLang('fr')">FR</button>
+    <button class="lang" onclick="setLang('nl')">NL</button>
+    <a href="#" onclick="openModal('rdv')">📅 Rendez-vous</a>
+    <a href="https://enghien.guichet-citoyen.be" target="_blank">🔗 Guichet en ligne</a>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav>
-  <a class="nav-brand" href="#">
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#1a6b3c"/><path d="M8 22l6-12 4 8 3-5 3 5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Commune d'Enghien · IA
-  </a>
-  <ul class="nav-links">
-    <li><a href="#taches">Tâches automatisées</a></li>
-    <li><a href="#agents">Agents IA</a></li>
-    <li><a href="#demo">Démo</a></li>
-    <li><a href="#roi">ROI 90 jours</a></li>
-    <li><a href="#tarifs">Tarifs</a></li>
-  </ul>
-  <a class="nav-cta" href="mailto:contact@connectik.com?subject=Démo%20Guichet%20IA%20Enghien">Planifier une démo</a>
+  <div class="nav-in">
+    <a class="logo" href="#">
+      <div class="logo-sq">🏛️</div>
+      <div class="logo-t"><strong>Enghien-Edingen</strong><span>Administration communale</span></div>
+    </a>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#">Accueil</a></li>
+      <li>
+        <a href="#">Ma commune ▾</a>
+        <div class="drop">
+          <a href="#">Présentation d'Enghien</a>
+          <a href="#">Collège &amp; Conseil communal</a>
+          <a href="#">Administration</a>
+          <a href="#">Statuts &amp; règlements</a>
+          <a href="#">Budget communal</a>
+          <a href="#">Marchés publics</a>
+        </div>
+      </li>
+      <li>
+        <a href="#">Services ▾</a>
+        <div class="drop">
+          <a href="#">Population &amp; État civil</a>
+          <a href="#">Urbanisme &amp; Permis</a>
+          <a href="#">Voirie &amp; Travaux</a>
+          <a href="#">CPAS &amp; Aide sociale</a>
+          <a href="#">Fiscalité</a>
+          <a href="#">Espace numérique (EPN)</a>
+        </div>
+      </li>
+      <li>
+        <a href="#">Vie locale ▾</a>
+        <div class="drop">
+          <a href="#">Actualités</a>
+          <a href="#">Agenda</a>
+          <a href="#">Bibliothèque</a>
+          <a href="#">Parc d'Enghien</a>
+          <a href="#">Associations</a>
+          <a href="#">Tourisme</a>
+        </div>
+      </li>
+      <li><a href="#" onclick="openModal('contact');return false">Contact</a></li>
+    </ul>
+    <div class="nav-acts">
+      <button class="btn-o" onclick="openModal('rdv')">📅 Rendez-vous</button>
+      <button class="btn-g" onclick="openModal('doc')">📄 Demande de document</button>
+    </div>
+    <button class="burger" onclick="toggleNav()">☰</button>
+  </div>
 </nav>
 
 <!-- HERO -->
-<header class="hero">
-  <div class="hero-badge">
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="#4ade80"/></svg>
-    Guichet Citoyen Intelligent · Enghien, Hainaut
+<section class="hero">
+  <div class="hero-in">
+    <div>
+      <h1>Bienvenue à <em>Enghien-Edingen</em></h1>
+      <p>Votre commune à votre service — démarches en ligne, rendez-vous, actualités et toutes les informations utiles au quotidien.</p>
+      <div class="hero-quick">
+        <button class="hq-btn" onclick="openModal('rdv')">📅 Prendre RDV</button>
+        <button class="hq-btn" onclick="openModal('doc')">📄 Demander un document</button>
+        <button class="hq-btn" onclick="openModal('signal')">🚦 Signaler un problème</button>
+        <button class="hq-btn" onclick="openChatWithMsg('horaires')">🕐 Horaires</button>
+        <button class="hq-btn" onclick="openChatWithMsg('collecte dechets')">🗑️ Collecte déchets</button>
+      </div>
+    </div>
+    <div class="search-card">
+      <span class="sc-label">🔍 Que cherchez-vous ?</span>
+      <div class="sc-row">
+        <input class="sc-input" id="siteSearch" type="text" placeholder="Ex : certificat de résidence…" onkeydown="if(event.key==='Enter')doSearch()">
+        <button class="sc-btn" onclick="doSearch()">Chercher</button>
+      </div>
+      <div class="sc-tags">
+        <span class="sc-tag" onclick="openChatWithMsg('carte identité')">Carte identité</span>
+        <span class="sc-tag" onclick="openChatWithMsg('passeport')">Passeport</span>
+        <span class="sc-tag" onclick="openChatWithMsg('permis bâtir')">Permis de bâtir</span>
+        <span class="sc-tag" onclick="openChatWithMsg('collecte déchets')">Collecte déchets</span>
+        <span class="sc-tag" onclick="openChatWithMsg('cpas aide')">CPAS</span>
+        <span class="sc-tag" onclick="openChatWithMsg('bibliothèque')">Bibliothèque</span>
+      </div>
+    </div>
   </div>
-  <h1>Votre commune gagne <em>4&nbsp;h/jour</em> — sans changer les habitudes de vos agents</h1>
-  <p>Des agents IA intégrés dans vos flux existants automatisent les tâches répétitives, répondent aux citoyens 24&nbsp;h/7 et libèrent vos équipes pour ce qui compte vraiment.</p>
-  <div class="hero-btns">
-    <a class="btn-white" href="#demo">Voir la démo live →</a>
-    <a class="btn-outline" href="#roi">Calculer mon ROI</a>
-  </div>
-</header>
+</section>
 
-<!-- STATS -->
-<div class="stats-banner">
-  <div class="stat-item"><div class="stat-num">73 %</div><div class="stat-label">des appels entrants sont des demandes répétitives déjà documentées</div></div>
-  <div class="stat-item"><div class="stat-num">18 min</div><div class="stat-label">traitées en moyenne par demande de document au guichet</div></div>
-  <div class="stat-item"><div class="stat-num">~11 980</div><div class="stat-label">habitants à servir avec une équipe administrative réduite</div></div>
-  <div class="stat-item"><div class="stat-num">90 j</div><div class="stat-label">pour un ROI mesurable et visible sur vos budgets opérationnels</div></div>
-</div>
-
-<!-- PAIN POINTS -->
-<div id="taches">
-<div class="section">
-  <span class="section-tag">Diagnostic</span>
-  <h2>Les tâches qui coûtent le plus cher à Enghien</h2>
-  <p class="lead">Répétitives, chronophages, à faible valeur cognitive — ces tâches peuvent être automatisées ou fortement assistées dès aujourd'hui.</p>
-  <div class="pain-grid">
-
-    <div class="pain-card">
-      <div class="pain-icon">📞</div>
-      <div class="pain-body">
-        <h4>Appels pour info répétitives</h4>
-        <p>Horaires, documents requis, statut d'une demande, adresse de service — les mêmes 10 questions représentent 70 % du volume d'appels entrants.</p>
-        <span class="tag-bad">~45 appels/jour · 3 agents mobilisés</span>
-      </div>
-    </div>
-
-    <div class="pain-card">
-      <div class="pain-icon">📄</div>
-      <div class="pain-body">
-        <h4>Demandes de documents administratifs</h4>
-        <p>Certificats de résidence, composition de ménage, extraits d'actes — saisies manuelles, courrier, validation, envoi postal.</p>
-        <span class="tag-bad">18 min/dossier · 40+ dossiers/semaine</span>
-      </div>
-    </div>
-
-    <div class="pain-card">
-      <div class="pain-icon">🗓️</div>
-      <div class="pain-body">
-        <h4>Gestion des rendez-vous</h4>
-        <p>Téléphone + registre papier ou tableur. Rappels manuels, absences non signalées, plages horaires mal optimisées.</p>
-        <span class="tag-bad">15 % de no-show · 2 h/semaine de gestion</span>
-      </div>
-    </div>
-
-    <div class="pain-card">
-      <div class="pain-icon">🚦</div>
-      <div class="pain-body">
-        <h4>Signalements voirie & propreté</h4>
-        <p>Signalements reçus par email, téléphone ou en personne — triage manuel, attribution de service, suivi sans outil centralisé.</p>
-        <span class="tag-bad">Délai moyen de prise en charge : 4 jours</span>
-      </div>
-    </div>
-
-    <div class="pain-card">
-      <div class="pain-icon">📮</div>
-      <div class="pain-body">
-        <h4>Courriers entrants & routage</h4>
-        <p>Lecture, tri et distribution manuelle à chaque service. Risque de perte, délais, double saisie dans plusieurs registres.</p>
-        <span class="tag-bad">~120 courriers/semaine traités manuellement</span>
-      </div>
-    </div>
-
-    <div class="pain-card">
-      <div class="pain-icon">💬</div>
-      <div class="pain-body">
-        <h4>Emails & formulaires de contact</h4>
-        <p>Boîte info@enghien-edingen.be : réponses hétérogènes selon disponibilité, délais de 24 à 72 h, aucune priorisation automatique.</p>
-        <span class="tag-bad">Délai moyen réponse : 38 h · Satisfaction : 62 %</span>
-      </div>
-    </div>
-
-    <div class="pain-card">
-      <div class="pain-icon">🏗️</div>
-      <div class="pain-body">
-        <h4>Suivi des permis d'urbanisme</h4>
-        <p>Le demandeur doit rappeler pour connaître l'état de son dossier. L'agent recherche dans le registre et rappelle — double consommation de temps.</p>
-        <span class="tag-bad">8 appels/jour rien que pour ce sujet</span>
-      </div>
-    </div>
-
-    <div class="pain-card">
-      <div class="pain-icon">📊</div>
-      <div class="pain-body">
-        <h4>Rapports & comptes-rendus de conseil</h4>
-        <p>Rédaction de procès-verbaux, comptes-rendus de réunion, rapports mensuels — travail chronophage à forte base documentaire.</p>
-        <span class="tag-bad">4–8 h par PV de conseil communal</span>
-      </div>
-    </div>
-
+<!-- ALERT -->
+<div class="alert-bar">
+  <div class="alert-in">
+    <span>⚠️</span>
+    <strong>Travaux rue du Moulin :</strong>
+    <span>Circulation déviée du 5 au 28 mai 2025. Suivre le fléchage de déviation. <a href="#" style="color:var(--gold);text-decoration:underline">Plus d'infos</a></span>
   </div>
 </div>
-</div>
 
-<!-- AGENTS IA -->
-<div id="agents" style="background:var(--light);padding:1px 0">
-<div class="section">
-  <span class="section-tag">Solutions IA</span>
-  <h2>8 agents IA déployés en moins de 4 semaines</h2>
-  <p class="lead">Chaque agent s'intègre à vos outils actuels. Aucune refonte. Vos agents continuent à travailler comme avant — l'IA gère l'arrière-plan.</p>
-  <div class="agents-grid">
-
-    <div class="agent-card">
-      <div class="agent-badge">Agent 1 · Guichet 24/7</div>
-      <span class="roi-pill">ROI J+7</span>
-      <h3>Assistant citoyen multicanal</h3>
-      <p>Répond aux questions sur le site, WhatsApp et SMS. Désamorce 73 % des appels avant qu'ils n'arrivent au standard.</p>
-      <ul>
-        <li>Répond à 200+ FAQ documentées</li>
-        <li>Transfère vers un humain si nécessaire</li>
-        <li>Disponible 24 h/24, 7 j/7</li>
-        <li>Mémorise le contexte citoyen</li>
-      </ul>
+<!-- SERVICES -->
+<section class="sec">
+  <div class="sec-in">
+    <div class="sec-hd">
+      <h2>Nos <span>services</span></h2>
+      <a class="see-all" href="#">Tous les services →</a>
     </div>
-
-    <div class="agent-card">
-      <div class="agent-badge">Agent 2 · Documents</div>
-      <span class="roi-pill">ROI J+14</span>
-      <h3>Formulaires intelligents auto-remplis</h3>
-      <p>Le citoyen s'authentifie via eID/itsme. L'agent pré-remplit le formulaire depuis la Banque Carrefour et soumet au bon service.</p>
-      <ul>
-        <li>Certificat de résidence en 90 secondes</li>
-        <li>Composition de ménage instantanée</li>
-        <li>Extrait de casier judiciaire guidé</li>
-        <li>Validation automatique + paiement en ligne</li>
-      </ul>
+    <div class="srv-grid">
+      <div class="srv" onclick="openModal('doc')"><div class="srv-ic">📋</div><h3>Population &amp; État civil</h3></div>
+      <div class="srv" onclick="openModal('rdv')"><div class="srv-ic">📅</div><h3>Prendre rendez-vous</h3></div>
+      <div class="srv" onclick="openChatWithMsg('permis bâtir urbanisme')"><div class="srv-ic">🏗️</div><h3>Urbanisme &amp; Permis</h3></div>
+      <div class="srv" onclick="openModal('signal')"><div class="srv-ic">🚦</div><h3>Signaler un problème</h3></div>
+      <div class="srv" onclick="openChatWithMsg('cpas aide sociale')"><div class="srv-ic">🤝</div><h3>CPAS &amp; Aide sociale</h3></div>
+      <div class="srv" onclick="openChatWithMsg('collecte déchets poubelle')"><div class="srv-ic">♻️</div><h3>Déchets &amp; Voirie</h3></div>
+      <div class="srv" onclick="openChatWithMsg('bibliothèque horaires')"><div class="srv-ic">📚</div><h3>Bibliothèque</h3></div>
+      <div class="srv" onclick="openModal('contact')"><div class="srv-ic">✉️</div><h3>Contact &amp; Courrier</h3></div>
     </div>
-
-    <div class="agent-card">
-      <div class="agent-badge">Agent 3 · Rendez-vous</div>
-      <span class="roi-pill">ROI J+10</span>
-      <h3>Agenda intelligent & rappels automatiques</h3>
-      <p>Réservation en ligne, rappel SMS 24 h avant, replanification en 1 clic. Élimine 80 % des no-shows.</p>
-      <ul>
-        <li>Intégration calendrier Outlook/Google</li>
-        <li>Rappel SMS + email automatique</li>
-        <li>Remplissage automatique des créneaux libres</li>
-        <li>Rapport hebdomadaire des présences</li>
-      </ul>
-    </div>
-
-    <div class="agent-card">
-      <div class="agent-badge">Agent 4 · Signalements</div>
-      <span class="roi-pill">ROI J+21</span>
-      <h3>Triage & suivi des incidents voirie</h3>
-      <p>Le citoyen photo + géolocalise le problème. L'IA classe, priorise et assigne au bon service. Le citoyen suit l'état en temps réel.</p>
-      <ul>
-        <li>Classification automatique (voirie/éclairage/propreté)</li>
-        <li>Attribution au service compétent</li>
-        <li>Notifications de progression au citoyen</li>
-        <li>Tableau de bord technique en temps réel</li>
-      </ul>
-    </div>
-
-    <div class="agent-card">
-      <div class="agent-badge">Agent 5 · Courrier</div>
-      <span class="roi-pill">ROI J+30</span>
-      <h3>Routage intelligent des courriers entrants</h3>
-      <p>Numérisation + OCR + classification IA. Chaque courrier est routé au bon service avec résumé en 3 lignes et action suggérée.</p>
-      <ul>
-        <li>OCR + classification en 12 catégories</li>
-        <li>Résumé automatique par courrier</li>
-        <li>Action recommandée + délai réglementaire</li>
-        <li>Archivage indexé et consultable</li>
-      </ul>
-    </div>
-
-    <div class="agent-card">
-      <div class="agent-badge">Agent 6 · Emails</div>
-      <span class="roi-pill">ROI J+7</span>
-      <h3>Réponse automatique aux emails entrants</h3>
-      <p>L'agent lit chaque email, génère un brouillon de réponse conforme, le présente à l'agent pour validation en 1 clic.</p>
-      <ul>
-        <li>Brouillons en 4 secondes, style institutionnel</li>
-        <li>Priorisation urgence automatique</li>
-        <li>Mémoire des échanges précédents</li>
-        <li>Rapport quotidien des emails non traités</li>
-      </ul>
-    </div>
-
-    <div class="agent-card">
-      <div class="agent-badge">Agent 7 · Urbanisme</div>
-      <span class="roi-pill">ROI J+45</span>
-      <h3>Suivi automatique des permis</h3>
-      <p>Le demandeur reçoit une notification à chaque changement de statut. Zéro appel entrant pour le suivi de dossier.</p>
-      <ul>
-        <li>Notifications SMS/email à chaque étape</li>
-        <li>Portail de suivi citoyen en ligne</li>
-        <li>Délais réglementaires calculés automatiquement</li>
-        <li>Relances automatiques si instruction tardive</li>
-      </ul>
-    </div>
-
-    <div class="agent-card">
-      <div class="agent-badge">Agent 8 · PV & Rapports</div>
-      <span class="roi-pill">ROI J+30</span>
-      <h3>Rédaction assistée des procès-verbaux</h3>
-      <p>Transcription audio du conseil + IA rédige le PV structuré en moins de 10 minutes. L'agent humain relit et valide.</p>
-      <ul>
-        <li>Transcription audio temps réel</li>
-        <li>Structure PV conforme aux obligations légales</li>
-        <li>Résumé exécutif + points de décision</li>
-        <li>Diffusion automatique aux conseillers</li>
-      </ul>
-    </div>
-
   </div>
-</div>
-</div>
+</section>
 
-<!-- DEMO CHATBOT -->
-<div id="demo" class="chat-section">
-  <div class="chat-wrapper">
-    <div class="chat-copy">
-      <span class="section-tag">Démo interactive</span>
-      <h2>L'assistant citoyen qui répond à la place de votre standard</h2>
-      <p>Intégré sur votre site enghien-edingen.be en moins d'une heure. Aucune migration. Aucun changement côté agent.</p>
-      <div class="chat-feature">
-        <div class="chat-feature-icon">🧠</div>
-        <div><strong>Mémoire contextuelle</strong><p>L'assistant se souvient des échanges précédents et du profil citoyen (si authentifié).</p></div>
-      </div>
-      <div class="chat-feature">
-        <div class="chat-feature-icon">🔒</div>
-        <div><strong>Conformité RGPD & vie privée</strong><p>Données hébergées sur serveurs belges. Aucune donnée personnelle stockée sans consentement.</p></div>
-      </div>
-      <div class="chat-feature">
-        <div class="chat-feature-icon">🤝</div>
-        <div><strong>Escalade humaine fluide</strong><p>Dès qu'une question dépasse l'IA, le dossier est transféré à l'agent compétent avec contexte complet.</p></div>
-      </div>
-      <div class="chat-feature">
-        <div class="chat-feature-icon">🌍</div>
-        <div><strong>Bilingue FR/NL</strong><p>Enghien-Edingen — l'assistant répond dans la langue du citoyen automatiquement.</p></div>
-      </div>
+<!-- NEWS -->
+<section class="news-sec">
+  <div class="sec-in">
+    <div class="sec-hd">
+      <h2><span>Actualités</span></h2>
+      <a class="see-all" href="#">Toutes les actualités →</a>
     </div>
-
-    <div class="chat-widget" id="chatWidget">
-      <div class="chat-header">
-        <div class="chat-avatar">🏛️</div>
-        <div>
-          <div class="chat-title">Guichet Enghien · Assistant IA</div>
-          <div class="chat-subtitle">Répond en quelques secondes</div>
+    <div class="news-grid">
+      <a href="#" class="news-card">
+        <div class="nc-img g1">🌳</div>
+        <div class="nc-body">
+          <div class="nc-cat">Environnement</div>
+          <h3>200 nouveaux arbres plantés dans nos quartiers</h3>
+          <p>Dans le cadre du plan communal de verdurisation, la commune plante 200 arbres supplémentaires ce printemps.</p>
+          <div class="nc-date">2 mai 2025</div>
         </div>
-        <div class="online-dot"></div>
-      </div>
-      <div class="chat-body" id="chatBody">
-        <div class="msg bot" style="animation-delay:0s">
-          <div class="msg-bubble">Bonjour 👋 Je suis l'assistant de la commune d'Enghien. Comment puis-je vous aider aujourd'hui ?</div>
-          <div class="msg-time">Maintenant</div>
-          <div class="chip-row">
-            <span class="chip" onclick="sendChip(this)">📄 Certificat de résidence</span>
-            <span class="chip" onclick="sendChip(this)">🗓️ Prendre RDV</span>
-            <span class="chip" onclick="sendChip(this)">🚦 Signaler un problème</span>
-            <span class="chip" onclick="sendChip(this)">🏗️ Mon permis</span>
+      </a>
+      <a href="#" class="news-card">
+        <div class="nc-img g2">🏫</div>
+        <div class="nc-body">
+          <div class="nc-cat">Éducation</div>
+          <h3>Inscriptions scolaires 2025–2026 ouvertes</h3>
+          <p>Les inscriptions pour les écoles primaires communales sont ouvertes jusqu'au 30 juin 2025.</p>
+          <div class="nc-date">28 avril 2025</div>
+        </div>
+      </a>
+      <a href="#" class="news-card">
+        <div class="nc-img g3">🚧</div>
+        <div class="nc-body">
+          <div class="nc-cat">Travaux</div>
+          <h3>Réfection de la rue de la Victoire : début juin</h3>
+          <p>Les travaux de renouvellement de l'égouttage et du revêtement débuteront le 2 juin pour 6 semaines.</p>
+          <div class="nc-date">24 avril 2025</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="sec" style="background:var(--wh)">
+  <div class="sec-in">
+    <div class="sec-hd">
+      <h2><span>Agenda</span> communal</h2>
+      <a class="see-all" href="#">Tout l'agenda →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div class="ev-list">
+        <div class="ev-item">
+          <div class="ev-dt"><strong>12</strong><span>MAI</span></div>
+          <div class="ev-body">
+            <div class="ev-tag">Marché</div>
+            <h4>Marché artisanal — Place Saint-Nicolas</h4>
+            <p>De 9h à 17h. Artisanat local, produits du terroir, restauration.</p>
+            <button class="ev-reg" onclick="openModal('rdv')">S'inscrire →</button>
+          </div>
+        </div>
+        <div class="ev-item">
+          <div class="ev-dt"><strong>15</strong><span>MAI</span></div>
+          <div class="ev-body">
+            <div class="ev-tag">Conseil</div>
+            <h4>Conseil communal — séance publique</h4>
+            <p>Maison communale, salle du Conseil — 19h00. Entrée libre.</p>
           </div>
         </div>
       </div>
-      <div class="chat-input-row">
-        <input class="chat-input" id="chatInput" type="text" placeholder="Posez votre question…" onkeydown="if(event.key==='Enter')sendMsg()">
-        <button class="chat-send" onclick="sendMsg()">Envoyer</button>
+      <div class="ev-list">
+        <div class="ev-item">
+          <div class="ev-dt"><strong>18</strong><span>MAI</span></div>
+          <div class="ev-body">
+            <div class="ev-tag">Tourisme</div>
+            <h4>Visite guidée du Parc d'Enghien</h4>
+            <p>Départ 10h, entrée principale du parc. Gratuit sur inscription.</p>
+            <button class="ev-reg" onclick="openModal('rdv')">Réserver →</button>
+          </div>
+        </div>
+        <div class="ev-item">
+          <div class="ev-dt"><strong>24</strong><span>MAI</span></div>
+          <div class="ev-body">
+            <div class="ev-tag">Convivialité</div>
+            <h4>Fête des voisins — Quartier du Centre</h4>
+            <p>17h à 21h, rue du Moulin. Apportez une petite contribution.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EMERGENCY -->
+<section class="emer-sec">
+  <div class="emer-in">
+    <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.3rem">Numéros d'urgence</h2>
+    <p style="font-size:.85rem;opacity:.8">En cas d'urgence, composez directement le bon numéro.</p>
+    <div class="emer-grid">
+      <div class="emer-card"><div class="emer-ico">🚑</div><h4>Urgences médicales</h4><div class="emer-num">100 / 112</div><p>SMUR, ambulance, pompiers</p></div>
+      <div class="emer-card"><div class="emer-ico">👮</div><h4>Police locale</h4><div class="emer-num">101</div><p>Zone de Police Brunau</p></div>
+      <div class="emer-card"><div class="emer-ico">🔥</div><h4>Pompiers</h4><div class="emer-num">100</div><p>Caserne de Soignies</p></div>
+      <div class="emer-card"><div class="emer-ico">🏥</div><h4>Médecin de garde</h4><div class="emer-num">0900 10 833</div><p>Nuits, week-ends, fériés</p></div>
+      <div class="emer-card"><div class="emer-ico">💊</div><h4>Pharmacie de garde</h4><div class="emer-num">0800 16 660</div><p>Gratuit 24h/24</p></div>
+      <div class="emer-card"><div class="emer-ico">🆘</div><h4>Centre anti-poison</h4><div class="emer-num">070 245 245</div><p>Intoxications, empoisonnements</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-in">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <div class="ft-logo"><div class="ft-logo-sq">🏛️</div><strong>Enghien-Edingen</strong></div>
+        <p>Administration communale au service de ses 12 000 habitants. Nos équipes répondent à vos besoins du lundi au vendredi.</p>
+        <div class="ft-contacts">
+          <span>📍 Rue de Virginal 2, 7850 Enghien</span>
+          <a href="tel:+3223971450">📞 02 397 14 50</a>
+          <a href="mailto:info@enghien-edingen.be">✉️ info@enghien-edingen.be</a>
+        </div>
+        <div class="ft-hours">
+          <strong>⏰ Horaires d'ouverture</strong>
+          Lundi–Vendredi : 8h15–12h00<br>
+          Lundi–Jeudi : 13h30–16h00<br>
+          <span style="color:#7be9ae;font-size:.78rem">Guichet en ligne : 24h/24 →</span>
+        </div>
+      </div>
+      <div class="ft-col">
+        <h4>Démarches</h4>
+        <ul>
+          <li><a href="#" onclick="openModal('doc')">Demander un document</a></li>
+          <li><a href="#" onclick="openModal('rdv')">Prendre rendez-vous</a></li>
+          <li><a href="#" onclick="openModal('signal')">Signaler un problème</a></li>
+          <li><a href="https://enghien.guichet-citoyen.be" target="_blank">Guichet en ligne</a></li>
+          <li><a href="#" onclick="openChatWithMsg('permis bâtir')">Urbanisme</a></li>
+          <li><a href="#" onclick="openChatWithMsg('cpas')">CPAS</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Ma commune</h4>
+        <ul>
+          <li><a href="#">Présentation</a></li>
+          <li><a href="#">Conseil communal</a></li>
+          <li><a href="#">Budget</a></li>
+          <li><a href="#">Marchés publics</a></li>
+          <li><a href="#">Règlements</a></li>
+          <li><a href="#">Déclarations</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Vie locale</h4>
+        <ul>
+          <li><a href="#">Actualités</a></li>
+          <li><a href="#">Agenda</a></li>
+          <li><a href="#">Parc d'Enghien</a></li>
+          <li><a href="#">Bibliothèque</a></li>
+          <li><a href="#">Tourisme</a></li>
+          <li><a href="#">Associations</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-btm">
+      <span>© 2025 Commune d'Enghien-Edingen — Tous droits réservés</span>
+      <span><a href="#">Mentions légales</a> · <a href="#">Vie privée</a> · <a href="#">Accessibilité</a> · <a href="#">Plan du site</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     MODAL : RENDEZ-VOUS
+     ============================================================ -->
+<div class="modal" id="modal-rdv">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <h3>📅 Prendre rendez-vous en ligne</h3>
+      <button class="modal-close" onclick="closeModal('rdv')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="step-bar">
+        <div class="step-item active" id="s1">1. Service</div>
+        <div class="step-item" id="s2">2. Date</div>
+        <div class="step-item" id="s3">3. Heure</div>
+        <div class="step-item" id="s4">4. Coordonnées</div>
+      </div>
+
+      <div class="rdv-step active" id="rdv-step1">
+        <div class="cal-title">Quel service souhaitez-vous consulter ?</div>
+        <div class="cal-services" id="srvList">
+          <button class="cal-srv" onclick="selectSrv(this,'Population &amp; État civil')">👤 Population &amp; État civil</button>
+          <button class="cal-srv" onclick="selectSrv(this,'Urbanisme &amp; Permis')">🏗️ Urbanisme &amp; Permis</button>
+          <button class="cal-srv" onclick="selectSrv(this,'CPAS &amp; Aide sociale')">🤝 CPAS &amp; Aide sociale</button>
+          <button class="cal-srv" onclick="selectSrv(this,'Direction générale')">🏛️ Direction générale</button>
+          <button class="cal-srv" onclick="selectSrv(this,'Fiscalité')">💶 Fiscalité</button>
+          <button class="cal-srv" onclick="selectSrv(this,'Voirie &amp; Technique')">🔧 Voirie &amp; Technique</button>
+        </div>
+        <button class="form-submit" onclick="goStep(2)" style="margin-top:1rem">Suivant →</button>
+      </div>
+
+      <div class="rdv-step" id="rdv-step2">
+        <div class="cal-nav">
+          <button onclick="prevMonth()">‹</button>
+          <strong id="calMonthLabel"></strong>
+          <button onclick="nextMonth()">›</button>
+        </div>
+        <div class="cal-title">Sélectionnez une date</div>
+        <div class="cal-grid" id="calGrid"></div>
+        <button class="form-submit" onclick="goStep(3)">Suivant →</button>
+      </div>
+
+      <div class="rdv-step" id="rdv-step3">
+        <div class="cal-title" id="slotLabel">Créneaux disponibles</div>
+        <div class="time-slots" id="timeSlots"></div>
+        <button class="form-submit" onclick="goStep(4)">Suivant →</button>
+      </div>
+
+      <div class="rdv-step" id="rdv-step4">
+        <div class="form-2col">
+          <div class="form-row"><label>Prénom *</label><input type="text" placeholder="Jean"></div>
+          <div class="form-row"><label>Nom *</label><input type="text" placeholder="Dupont"></div>
+        </div>
+        <div class="form-row"><label>Téléphone *</label><input type="tel" placeholder="04xx xx xx xx"></div>
+        <div class="form-row"><label>Email *</label><input type="email" placeholder="jean.dupont@email.be"></div>
+        <div class="form-row"><label>Motif du rendez-vous</label><textarea placeholder="Décrivez brièvement l'objet de votre visite…" rows="3"></textarea></div>
+        <div class="form-hint">⚠️ Vous recevrez une confirmation par email et SMS. Le non-respect du rendez-vous sans annulation préalable peut entraîner un refus de nouvelle réservation.</div>
+        <button class="form-submit" style="margin-top:1rem" onclick="submitRdv()">✅ Confirmer mon rendez-vous</button>
+      </div>
+
+      <div class="form-success" id="rdv-success">
+        <div class="fs-ico">✅</div>
+        <h4>Rendez-vous confirmé !</h4>
+        <p>Vous recevrez une confirmation par email et SMS dans les minutes qui suivent.<br>En cas d'empêchement, annulez via le lien dans votre email au moins 24h à l'avance.</p>
+        <button class="btn-g" style="margin-top:1.25rem" onclick="closeModal('rdv')">Fermer</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ROI TIMELINE -->
-<div id="roi" class="roi-section">
-<div class="section">
-  <span class="section-tag">ROI 90 jours</span>
-  <h2>Ce que votre commune gagne, semaine par semaine</h2>
-  <p class="lead">Basé sur les volumes réels d'Enghien (11 980 habitants, 5 agents administratifs). Chaque chiffre est conservateur.</p>
-  <div class="timeline">
-    <div class="timeline-col">
-      <div class="t-month">Mois 1 · Jours 1–30</div>
-      <div class="t-title">Déploiement & Quick Wins</div>
-      <ul class="t-list">
-        <li>Assistant IA sur le site web (J+3)</li>
-        <li>Réponse automatique emails (J+5)</li>
-        <li>Agenda intelligent actif (J+10)</li>
-        <li>Formation des agents (2 h)</li>
-        <li>Formulaires intelligents eID (J+14)</li>
-      </ul>
-      <div class="t-kpi"><strong>−45 %</strong><span>d'appels entrants au standard</span></div>
+<!-- ============================================================
+     MODAL : DEMANDE DE DOCUMENT
+     ============================================================ -->
+<div class="modal" id="modal-doc">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <h3>📄 Demande de document administratif</h3>
+      <button class="modal-close" onclick="closeModal('doc')">✕</button>
     </div>
-    <div class="timeline-col" style="background:rgba(26,107,60,.04)">
-      <div class="t-month">Mois 2 · Jours 31–60</div>
-      <div class="t-title">Automatisation des flux</div>
-      <ul class="t-list">
-        <li>Triage signalements voirie actif</li>
-        <li>Routage courriers entrants</li>
-        <li>Suivi permis d'urbanisme</li>
-        <li>Tableau de bord KPI en temps réel</li>
-        <li>Optimisation sur retours agents</li>
-      </ul>
-      <div class="t-kpi"><strong>4 h/jour</strong><span>libérées sur les 5 agents</span></div>
-    </div>
-    <div class="timeline-col">
-      <div class="t-month">Mois 3 · Jours 61–90</div>
-      <div class="t-title">ROI documenté & optimisation</div>
-      <ul class="t-list">
-        <li>Rédaction PV assistée par IA</li>
-        <li>Rapport ROI complet au Collège</li>
-        <li>Satisfaction citoyenne mesurée</li>
-        <li>Ajustement base de connaissance</li>
-        <li>Plan phase 2 (CPAS, urbanisme +)</li>
-      </ul>
-      <div class="t-kpi"><strong>€ 28 k</strong><span>d'équivalent ETP économisé sur 90 j</span></div>
-    </div>
-  </div>
-
-  <!-- COMPARE TABLE -->
-  <h3 style="margin-top:3rem;margin-bottom:.5rem;font-size:1.3rem">Avant / Après : tâches clés</h3>
-  <div class="compare-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Tâche</th>
-          <th>Aujourd'hui</th>
-          <th>Avec l'IA</th>
-          <th>Gain estimé</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Appels info standard</td>
-          <td class="bad">45/j · 3 agents · 18 min/appel</td>
-          <td class="good">73 % résolus par IA · 5 min/appel restant</td>
-          <td>~10 h/jour récupérées</td>
-        </tr>
-        <tr>
-          <td>Certificat de résidence</td>
-          <td class="bad">18 min · courrier postal · 3–5 j</td>
-          <td class="good">90 sec · PDF sécurisé · immédiat</td>
-          <td>95 % plus rapide</td>
-        </tr>
-        <tr>
-          <td>Gestion des RDV</td>
-          <td class="bad">Téléphone + registre · 15 % no-show</td>
-          <td class="good">Réservation en ligne · 3 % no-show</td>
-          <td>−12 % no-show · 2 h/sem</td>
-        </tr>
-        <tr>
-          <td>Signalement voirie</td>
-          <td class="bad">Email/tel · 4 j délai moyen</td>
-          <td class="good">Photo + IA · assignation en 2 h</td>
-          <td>−50 % délai traitement</td>
-        </tr>
-        <tr>
-          <td>Suivi permis urbanisme</td>
-          <td class="bad">8 appels/j · recherche manuelle</td>
-          <td class="good">Notifications automatiques · 0 appel</td>
-          <td>1,5 h/jour libérées</td>
-        </tr>
-        <tr>
-          <td>PV Conseil communal</td>
-          <td class="bad">4–8 h de rédaction manuelle</td>
-          <td class="good">Transcription + IA · validation 30 min</td>
-          <td>−85 % temps rédaction</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-</div>
-
-<!-- TARIFS -->
-<div id="tarifs" style="background:var(--white);padding:1px 0">
-<div class="section">
-  <span class="section-tag">Tarifs municipaux</span>
-  <h2>Tarifs pensés pour les communes wallonnes</h2>
-  <p class="lead">Budget communal limité. Résultats mesurables. Pas d'engagement longue durée la première année.</p>
-  <div class="pricing-grid">
-    <div class="price-card">
-      <h3>Starter</h3>
-      <div class="price-amount">490 € <span>/ mois</span></div>
-      <p style="font-size:.86rem;color:var(--gray)">Pour communes &lt; 5 000 hab.</p>
-      <ul>
-        <li>Assistant citoyen IA sur site web</li>
-        <li>200 FAQ pré-chargées</li>
-        <li>Agenda intelligent + rappels SMS</li>
-        <li>Tableau de bord basique</li>
-        <li>Support par email</li>
-      </ul>
-      <a class="price-btn outline" href="mailto:contact@connectik.com?subject=Pack%20Starter%20Commune">Démarrer →</a>
-    </div>
-    <div class="price-card featured">
-      <h3>Commune ✦ Recommandé pour Enghien</h3>
-      <div class="price-amount">990 € <span>/ mois</span></div>
-      <p style="font-size:.86rem;color:var(--gray)">Pour communes 5 000–20 000 hab.</p>
-      <ul>
-        <li>8 agents IA déployés</li>
-        <li>Formulaires eID/itsme intégrés</li>
-        <li>Triage signalements voirie</li>
-        <li>Routage courrier + emails</li>
-        <li>Rédaction PV assistée</li>
-        <li>Tableau de bord KPI complet</li>
-        <li>Support dédié + formation agents</li>
-        <li>Rapport ROI mensuel</li>
-      </ul>
-      <a class="price-btn" href="mailto:contact@connectik.com?subject=Pack%20Commune%20Enghien">Planifier une démo →</a>
-    </div>
-    <div class="price-card">
-      <h3>Intercommunale</h3>
-      <div class="price-amount">Sur devis</div>
-      <p style="font-size:.86rem;color:var(--gray)">Pour groupements &gt; 20 000 hab.</p>
-      <ul>
-        <li>Déploiement multi-communes</li>
-        <li>Intégration ERP communal existant</li>
-        <li>Connecteurs Civipol / e-Guichet</li>
-        <li>SLA garanti 99,9 %</li>
-        <li>Hébergement souverain Belgique</li>
-        <li>DPO et RGPD accompagnés</li>
-      </ul>
-      <a class="price-btn outline" href="mailto:contact@connectik.com?subject=Pack%20Intercommunale">Nous contacter →</a>
+    <div class="modal-body">
+      <div id="doc-form">
+        <div class="form-row">
+          <label>Type de document *</label>
+          <select id="docType">
+            <option value="">— Sélectionnez —</option>
+            <option>Certificat de résidence</option>
+            <option>Composition de ménage</option>
+            <option>Extrait de casier judiciaire (modèle 1)</option>
+            <option>Extrait de casier judiciaire (modèle 2)</option>
+            <option>Certificat de nationalité belge</option>
+            <option>Légalisation de signature</option>
+            <option>Copie conforme d'un document</option>
+            <option>Extrait d'acte de naissance</option>
+            <option>Extrait d'acte de mariage</option>
+            <option>Extrait d'acte de décès</option>
+            <option>Attestation de vie</option>
+          </select>
+        </div>
+        <div class="form-2col">
+          <div class="form-row"><label>Prénom *</label><input type="text" placeholder="Jean"></div>
+          <div class="form-row"><label>Nom *</label><input type="text" placeholder="Dupont"></div>
+        </div>
+        <div class="form-row"><label>Date de naissance *</label><input type="date"></div>
+        <div class="form-row"><label>Adresse actuelle à Enghien *</label><input type="text" placeholder="Rue des Lilas 12, 7850 Enghien"></div>
+        <div class="form-row"><label>Email pour réception *</label><input type="email" placeholder="jean.dupont@email.be"></div>
+        <div class="form-row">
+          <label>Mode de réception *</label>
+          <select>
+            <option>Par email (PDF sécurisé)</option>
+            <option>Retrait au guichet</option>
+            <option>Par courrier postal</option>
+          </select>
+        </div>
+        <div class="form-row"><label>Motif / usage du document</label><input type="text" placeholder="Ex : demande d'emploi, logement…"></div>
+        <div class="form-hint" id="docHint" style="margin-bottom:.85rem">💡 La plupart des documents sont <strong>gratuits</strong> et disponibles sous 24h (jours ouvrables). Le casier judiciaire modèle 2 ou 3 nécessite une justification.</div>
+        <button class="form-submit" onclick="submitDoc()">📤 Envoyer ma demande</button>
+      </div>
+      <div class="form-success" id="doc-success">
+        <div class="fs-ico">📬</div>
+        <h4>Demande envoyée !</h4>
+        <p>Votre document sera traité sous 24h ouvrables. Vous recevrez un email de confirmation et votre document par le mode choisi.</p>
+        <button class="btn-g" style="margin-top:1.25rem" onclick="closeModal('doc')">Fermer</button>
+      </div>
     </div>
   </div>
 </div>
-</div>
 
-<!-- CTA FINAL -->
-<div style="background:linear-gradient(135deg,var(--dark),var(--green));padding:5rem 2rem;text-align:center;color:#fff">
-  <h2 style="font-size:clamp(1.8rem,4vw,2.6rem);max-width:640px;margin:0 auto 1rem;font-weight:800">Prêt à libérer 4 heures par jour pour vos agents ?</h2>
-  <p style="opacity:.85;max-width:540px;margin:0 auto 2.5rem;font-size:1.05rem">Démo personnalisée pour Enghien en 30 minutes. Nous configurons en direct votre base de connaissance et vous montrons le ROI projeté.</p>
-  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-    <a class="btn-white" href="mailto:contact@connectik.com?subject=Démo%20Guichet%20IA%20Enghien">Réserver une démo gratuite →</a>
-    <a class="btn-outline" href="tel:+3228126001">+32 2 812 60 01</a>
+<!-- ============================================================
+     MODAL : SIGNALEMENT
+     ============================================================ -->
+<div class="modal" id="modal-signal">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <h3>🚦 Signaler un problème</h3>
+      <button class="modal-close" onclick="closeModal('signal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="signal-form">
+        <div class="form-row">
+          <label>Catégorie *</label>
+          <select>
+            <option value="">— Sélectionnez —</option>
+            <option>🕳️ Nid de poule / dégradation voirie</option>
+            <option>💡 Éclairage public en panne</option>
+            <option>🗑️ Dépôt sauvage / déchets</option>
+            <option>🌳 Arbre dangereux</option>
+            <option>🚧 Signalisation routière abîmée</option>
+            <option>💧 Inondation / égout bouché</option>
+            <option>🏚️ Bâtiment abandonné / dangereux</option>
+            <option>🐕 Animal errant</option>
+            <option>Autre problème</option>
+          </select>
+        </div>
+        <div class="form-row"><label>Adresse précise du problème *</label><input type="text" placeholder="Ex : Rue du Moulin 45 ou coin Rue de Mons / Chaussée de Bruxelles"></div>
+        <div class="form-row"><label>Description *</label><textarea placeholder="Décrivez le problème en détail. Plus vous êtes précis, plus vite nous pouvons intervenir."></textarea></div>
+        <div class="form-row">
+          <label>Photo (facultatif)</label>
+          <input type="file" accept="image/*" capture="environment" style="padding:.4rem">
+          <div class="form-hint">Formats acceptés : JPG, PNG, WEBP. Max 5 Mo.</div>
+        </div>
+        <div class="form-2col">
+          <div class="form-row"><label>Votre nom</label><input type="text" placeholder="Facultatif"></div>
+          <div class="form-row"><label>Votre email</label><input type="email" placeholder="Pour recevoir le suivi"></div>
+        </div>
+        <div class="form-hint" style="margin-bottom:.85rem">✅ Chaque signalement est traité sous <strong>48–72h ouvrables</strong>. Pour les urgences (danger immédiat), appelez le <strong>02 397 14 50</strong>.</div>
+        <button class="form-submit" onclick="submitSignal()">📤 Envoyer le signalement</button>
+      </div>
+      <div class="form-success" id="signal-success">
+        <div class="fs-ico">🔧</div>
+        <h4>Signalement enregistré !</h4>
+        <p>Votre dossier a été transmis au service technique compétent. Délai d'intervention : 48–72h. Si vous avez laissé votre email, vous recevrez une notification à la résolution.</p>
+        <button class="btn-g" style="margin-top:1.25rem" onclick="closeModal('signal')">Fermer</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<footer>
-  <p>© 2025 Connectik · Guichet Citoyen Intelligent · contact@connectik.com</p>
-  <p style="margin-top:.5rem"><a href="#">Mentions légales</a> · <a href="#">RGPD</a> · <a href="#">Hébergement: AWS eu-west-1 (Dublin) + backup Belgique</a></p>
-</footer>
+<!-- ============================================================
+     MODAL : CONTACT
+     ============================================================ -->
+<div class="modal" id="modal-contact">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <h3>✉️ Nous contacter</h3>
+      <button class="modal-close" onclick="closeModal('contact')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="contact-form">
+        <div class="form-row">
+          <label>Service concerné *</label>
+          <select>
+            <option>Administration générale</option>
+            <option>Population &amp; État civil</option>
+            <option>Urbanisme &amp; Permis</option>
+            <option>Voirie &amp; Travaux</option>
+            <option>CPAS &amp; Aide sociale</option>
+            <option>Fiscalité</option>
+            <option>Culture &amp; Loisirs</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="form-2col">
+          <div class="form-row"><label>Prénom *</label><input type="text"></div>
+          <div class="form-row"><label>Nom *</label><input type="text"></div>
+        </div>
+        <div class="form-row"><label>Email *</label><input type="email"></div>
+        <div class="form-row"><label>Téléphone</label><input type="tel"></div>
+        <div class="form-row"><label>Objet *</label><input type="text" placeholder="Résumez votre demande en une ligne"></div>
+        <div class="form-row"><label>Message *</label><textarea placeholder="Votre message…" rows="5"></textarea></div>
+        <div class="form-hint" style="margin-bottom:.85rem">Délai de réponse : <strong>2 jours ouvrables maximum</strong>. Pour les urgences : 02 397 14 50.</div>
+        <button class="form-submit" onclick="submitContact()">📤 Envoyer</button>
+      </div>
+      <div class="form-success" id="contact-success">
+        <div class="fs-ico">📩</div>
+        <h4>Message envoyé !</h4>
+        <p>Nous vous répondrons dans les 2 jours ouvrables. Merci pour votre message.</p>
+        <button class="btn-g" style="margin-top:1.25rem" onclick="closeModal('contact')">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     CHATBOT
+     ============================================================ -->
+<button id="cb-btn" onclick="toggleChat()">
+  💬
+  <span class="cb-notif">1</span>
+</button>
+<div id="cb-win">
+  <div class="cbh">
+    <div class="cbh-av">🏛️</div>
+    <div class="cbh-info"><strong>Assistant Enghien</strong><span>Répond en quelques secondes · 24h/24</span></div>
+    <div class="cbh-dot"></div>
+    <button class="cb-x" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="cb-msgs" id="cbMsgs"></div>
+  <div class="cb-input-row">
+    <input class="cb-input" id="cbInput" type="text" placeholder="Posez votre question…" onkeydown="if(event.key==='Enter')cbSend()">
+    <button class="cb-send" onclick="cbSend()">Envoyer</button>
+  </div>
+</div>
 
 <script>
-  const responses = {
-    "certificat de résidence": "Pour obtenir votre <strong>certificat de résidence</strong>, connectez-vous avec votre eID ou itsme sur notre guichet en ligne :<br><br>👉 <a href='https://enghien.guichet-citoyen.be/' style='color:var(--green)'>enghien.guichet-citoyen.be</a><br><br>Le document PDF officiel est généré en 90 secondes et envoyé par email. Tarif : <strong>gratuit</strong>. Une question ?",
-    "prendre rdv": "Je peux vous aider à <strong>réserver un rendez-vous</strong>. 📅<br><br>Quel service vous intéresse ?<br>• Population / État civil<br>• Service social / CPAS<br>• Urbanisme & permis<br>• Direction générale<br><br>Les créneaux disponibles cette semaine : <strong>mardi 9h–11h</strong> et <strong>jeudi 14h–16h</strong>.",
-    "signaler un problème": "Pour <strong>signaler un problème</strong> (voirie, éclairage, propreté…) :<br><br>1. Décrivez le problème ci-dessous<br>2. Ajoutez une photo si possible<br>3. Votre signalement est automatiquement classé et assigné au service compétent<br><br>Délai de traitement garanti : <strong>sous 48 h</strong> pour les urgences. Quel est le problème ?",
-    "mon permis": "Pour suivre l'état de votre <strong>permis d'urbanisme</strong>, j'ai besoin de votre numéro de dossier (format : URB-XXXX-XXXX) ou votre nom de famille.<br><br>Vous recevrez aussi des <strong>notifications automatiques</strong> à chaque changement de statut si vous êtes inscrit. Souhaitez-vous vous inscrire ?",
-    "default": "Je transmets votre question au bon service. En attendant, voici quelques ressources utiles :<br>• 📞 02 397 14 50 (lun–ven, 8h15–12h)<br>• ✉️ info@enghien-edingen.be<br>• 🌐 enghien-edingen.be<br><br>Un agent vous répondra sous <strong>2 heures</strong> en moyenne."
+/* ── NAV MOBILE ── */
+function toggleNav(){
+  document.getElementById('navMenu').classList.toggle('mob-open');
+}
+
+/* ── MODALS ── */
+function openModal(id){
+  document.getElementById('modal-'+id).classList.add('open');
+  if(id==='rdv') initCal();
+}
+function closeModal(id){
+  document.getElementById('modal-'+id).classList.remove('open');
+}
+document.querySelectorAll('.modal').forEach(m=>{
+  m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); });
+});
+
+/* ── FORM SUBMITS ── */
+function submitRdv(){
+  document.getElementById('rdv-step4').style.display='none';
+  document.getElementById('rdv-success').style.display='block';
+}
+function submitDoc(){
+  document.getElementById('doc-form').style.display='none';
+  document.getElementById('doc-success').style.display='block';
+}
+function submitSignal(){
+  document.getElementById('signal-form').style.display='none';
+  document.getElementById('signal-success').style.display='block';
+}
+function submitContact(){
+  document.getElementById('contact-form').style.display='none';
+  document.getElementById('contact-success').style.display='block';
+}
+
+/* ── RDV STEPPER ── */
+let rdvStep=1, selDate=null, selSlot=null, selSrv='';
+function goStep(n){
+  document.getElementById('rdv-step'+rdvStep).classList.remove('active');
+  document.getElementById('s'+rdvStep).classList.remove('active');
+  document.getElementById('s'+rdvStep).classList.add('done');
+  rdvStep=n;
+  document.getElementById('rdv-step'+n).classList.add('active');
+  document.getElementById('s'+n).classList.add('active');
+}
+function selectSrv(el,name){
+  document.querySelectorAll('.cal-srv').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel'); selSrv=name;
+}
+
+/* ── CALENDAR ── */
+let calYear, calMonth;
+const MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const DAYS=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+function initCal(){
+  const now=new Date();
+  calYear=now.getFullYear(); calMonth=now.getMonth();
+  renderCal();
+}
+function renderCal(){
+  document.getElementById('calMonthLabel').textContent=MONTHS[calMonth]+' '+calYear;
+  const grid=document.getElementById('calGrid');
+  grid.innerHTML='';
+  DAYS.forEach(d=>{ const el=document.createElement('div'); el.className='cal-day-name'; el.textContent=d; grid.appendChild(el); });
+  const first=new Date(calYear,calMonth,1).getDay();
+  const offset=(first===0?6:first-1);
+  const days=new Date(calYear,calMonth+1,0).getDate();
+  const now=new Date(); now.setHours(0,0,0,0);
+  for(let i=0;i<offset;i++){ const el=document.createElement('div'); el.className='cal-day empty'; grid.appendChild(el); }
+  for(let d=1;d<=days;d++){
+    const el=document.createElement('div');
+    const date=new Date(calYear,calMonth,d);
+    const dow=date.getDay();
+    const isPast=date<now;
+    const isWeekend=(dow===0||dow===6);
+    el.className='cal-day'+(isPast||isWeekend?' past':'')+(date.getTime()===now.getTime()?' today':'');
+    el.textContent=d;
+    if(!isPast&&!isWeekend) el.onclick=()=>pickDay(el,date);
+    grid.appendChild(el);
+  }
+}
+function pickDay(el,date){
+  document.querySelectorAll('.cal-day').forEach(d=>d.classList.remove('sel'));
+  el.classList.add('sel'); selDate=date;
+  renderSlots(date);
+}
+function renderSlots(date){
+  const slots=['08h30','09h00','09h30','10h00','10h30','11h00','13h30','14h00','14h30','15h00','15h30'];
+  const full=['09h00','10h30','14h00'];
+  const container=document.getElementById('timeSlots');
+  document.getElementById('slotLabel').textContent='Créneaux du '+date.getDate()+' '+MONTHS[date.getMonth()];
+  container.innerHTML='';
+  slots.forEach(s=>{
+    const el=document.createElement('div');
+    el.className='ts'+(full.includes(s)?' full':'');
+    el.textContent=s+(full.includes(s)?' ✗':'');
+    if(!full.includes(s)) el.onclick=()=>{ document.querySelectorAll('.ts').forEach(t=>t.classList.remove('sel')); el.classList.add('sel'); selSlot=s; };
+    container.appendChild(el);
+  });
+}
+function prevMonth(){ if(calMonth===0){calMonth=11;calYear--;}else calMonth--; renderCal(); }
+function nextMonth(){ if(calMonth===11){calMonth=0;calYear++;}else calMonth++; renderCal(); }
+
+/* ── SEARCH ── */
+function doSearch(){
+  const q=document.getElementById('siteSearch').value.trim();
+  if(q) openChatWithMsg(q);
+}
+
+/* ── CHATBOT ── */
+const QA = [
+  // HORAIRES & CONTACT
+  {kw:['horaire','ouvert','heure','ferme','quand','bureau'],
+   a:`<b>Horaires d'ouverture</b><br><br>🕐 <b>Lundi au vendredi :</b> 8h15 – 12h00<br>🕐 <b>Lundi au jeudi :</b> aussi 13h30 – 16h00<br>🔒 Vendredi après-midi, samedi et dimanche : <b>fermé</b><br><br>📞 02 397 14 50<br>✉️ info@enghien-edingen.be<br><br>💻 Le <b>guichet en ligne</b> est disponible 24h/24 sur <a href="https://enghien.guichet-citoyen.be" target="_blank" style="color:var(--g)">enghien.guichet-citoyen.be</a>`},
+
+  {kw:['adresse','commune','mairie','où','situe','trouver','venir'],
+   a:`<b>Adresse de la Maison communale</b><br><br>📍 Rue de Virginal 2<br>7850 Enghien<br><br>📞 02 397 14 50<br>✉️ info@enghien-edingen.be<br><br>🚌 Bus TEC lignes 54 & 55 – arrêt <i>Enghien Centre</i><br>🚉 Gare d'Enghien : 5 min à pied`},
+
+  {kw:['telephone','numero','appeler','contact','joindre'],
+   a:`<b>Contacts principaux</b><br><br>📞 <b>Standard :</b> 02 397 14 50<br>✉️ <b>Email :</b> info@enghien-edingen.be<br><br><b>Services directs :</b><br>• Population : 02 397 14 51<br>• Urbanisme : 02 397 14 52<br>• CPAS : 02 397 XX XX<br>• Voirie : voirie@enghien-edingen.be<br><br>🔗 <a href="https://enghien.guichet-citoyen.be" target="_blank" style="color:var(--g)">Guichet en ligne 24h/24</a>`},
+
+  // CARTE IDENTITE
+  {kw:['carte','identite','eid','renouveler','renouvellement','perdu','vole','expire'],
+   a:`<b>Carte d'identité — Renouvellement</b><br><br><b>Documents à apporter :</b><br>• 1 photo d'identité récente conforme (normes ICAO)<br>• Ancienne carte (ou déclaration de perte/vol à la police)<br><br><b>Tarifs 2025 :</b><br>• Adulte (12–75 ans) : 17,50 €<br>• Personne âgée (75+ ans) : gratuit<br>• Enfant (< 12 ans) : gratuit (obligatoire dès la naissance)<br><br><b>Délais :</b><br>• Normale : 3–4 semaines<br>• Urgente 24h : + 124 € (à retirer à Bruxelles)<br><br>📍 Guichet Population — RDV recommandé`},
+
+  // PASSEPORT
+  {kw:['passeport','voyage','international','frontiere'],
+   a:`<b>Passeport belge</b><br><br><b>Documents requis :</b><br>• Carte d'identité valide<br>• 1 photo biométrique conforme<br><br><b>Tarifs 2025 :</b><br>• Adulte (18+) : 75 €<br>• Mineur (< 18 ans) : 35 €<br><br><b>Délais :</b><br>• Normal : 10 jours ouvrables<br>• Urgent (48h) : + 130 € — disponible à Bruxelles uniquement<br><br>⚠️ Le passeport doit être demandé <b>en personne</b> au guichet Population.<br>📅 Prenez rendez-vous pour éviter l'attente.`},
+
+  // CERTIFICAT RESIDENCE
+  {kw:['certificat','residence','domicile','attestation','preuve adresse','justificatif'],
+   a:`<b>Certificat de résidence</b><br><br>Ce document prouve votre domicile légal sur le territoire d'Enghien.<br><br><b>Comment l'obtenir :</b><br>✅ <b>En ligne (le plus rapide)</b> : connectez-vous avec votre eID ou itsme sur <a href="https://enghien.guichet-citoyen.be" target="_blank" style="color:var(--g)">enghien.guichet-citoyen.be</a> → PDF immédiat<br>✅ <b>Au guichet</b> : sans rendez-vous — délivré dans la journée<br><br><b>Coût :</b> Gratuit<br><b>Validité :</b> 3 mois en général`},
+
+  // COMPOSITION DE MENAGE
+  {kw:['composition','menage','famille','personnes','domicile','logement'],
+   a:`<b>Composition de ménage</b><br><br>Liste toutes les personnes légalement domiciliées à votre adresse.<br><br><b>Obtenir ce document :</b><br>✅ En ligne via guichet-citoyen.be (instantané avec eID)<br>✅ Au guichet Population (gratuit, sans rendez-vous)<br><br><b>Documents à apporter :</b> carte d'identité<br><b>Coût :</b> Gratuit<br><br>⚠️ Si le document est demandé pour une <b>autre personne</b>, une procuration écrite + copie CI sont nécessaires.`},
+
+  // CASIER JUDICIAIRE
+  {kw:['casier','judiciaire','extrait','bulletin','police','condamnation'],
+   a:`<b>Extrait de casier judiciaire</b><br><br><b>3 modèles existent :</b><br>• <b>Modèle 1</b> (emploi, bénévolat) : gratuit — au guichet ou en ligne<br>• <b>Modèle 2</b> (professions réglementées) : justification requise<br>• <b>Modèle 3</b> (procédures judiciaires) : uniquement via le parquet<br><br><b>Comment obtenir le modèle 1 :</b><br>✅ En ligne sur guichet-citoyen.be (instantané)<br>✅ Au guichet Population (même jour)<br><br><b>Coût :</b> Gratuit<br>📞 Questions : 02 397 14 50`},
+
+  // LEGALISATION SIGNATURE
+  {kw:['legalisation','legaliser','signature','authentifier','certifier'],
+   a:`<b>Légalisation de signature</b><br><br>Un fonctionnaire communal certifie que la signature est bien la vôtre.<br><br><b>Procédure :</b><br>1. Présentez-vous au guichet Population <b>avec votre carte d'identité</b><br>2. Apportez le document à signer <b>non signé</b><br>3. Vous signez en présence du fonctionnaire<br>4. Le cachet est apposé immédiatement<br><br><b>Coût :</b> Gratuit<br><b>Délai :</b> Immédiat — sans rendez-vous<br><b>Horaires :</b> Lun–Ven 8h15–12h`},
+
+  // DECLARATION NAISSANCE
+  {kw:['naissance','naitre','nouveau','bebe','declare','accouchement'],
+   a:`<b>Déclaration de naissance</b><br><br>⏰ <b>Délai :</b> dans les <b>15 jours</b> suivant la naissance<br>📍 À la commune du <b>lieu de naissance</b><br><br><b>Documents requis :</b><br>• Attestation médicale (médecin/sage-femme/hôpital)<br>• Cartes d'identité des deux parents<br>• Livret de mariage (si mariés)<br>• Acte de reconnaissance (si non mariés)<br><br><b>Coût :</b> Gratuit<br><br>💡 Si vous accouchez à la clinique, l'hôpital peut souvent se charger de la déclaration à votre place.`},
+
+  // MARIAGE CIVIL
+  {kw:['mariage','marier','epouser','civil','noces','union'],
+   a:`<b>Mariage civil à Enghien</b><br><br><b>Conditions :</b> 18 ans minimum, pas de lien familial proche, non marié(e) par ailleurs.<br><br><b>Procédure :</b><br>1. Déposez votre <b>déclaration de mariage</b> au moins <b>14 jours</b> avant la date souhaitée<br>2. Documents : extraits d'acte de naissance récents, cartes d'identité, certificat de résidence, certificat de célibat<br>3. Entretien préalable avec l'officier de l'état civil<br><br><b>Coût :</b> Gratuit (cérémonie de base)<br><b>Salle des mariages :</b> Maison communale, Rue de Virginal 2<br>📞 02 397 14 50 (État civil)`},
+
+  // COHABITATION
+  {kw:['cohabitation','cohabiter','cohabitant','union libre','vie commune'],
+   a:`<b>Déclaration de cohabitation légale</b><br><br>Deux personnes majeures (pas nécessairement un couple) peuvent déclarer cohabiter légalement.<br><br><b>Procédure :</b><br>• Les <b>deux personnes</b> se présentent ensemble au guichet État civil<br>• Documents : cartes d'identité des deux personnes<br>• Pas de notaire nécessaire<br>• Acte établi immédiatement<br><br><b>Conditions :</b> ne pas être marié(e), être domicilié(e) à la même adresse<br><b>Coût :</b> Gratuit<br><b>Durée :</b> 10–15 minutes`},
+
+  // DECES
+  {kw:['deces','mort','mourir','decede','funera','enterr','inhumation','deuil'],
+   a:`<b>Déclaration de décès</b><br><br>⏰ <b>Délai :</b> dans les <b>24h</b> suivant le décès<br>📍 À la commune du <b>lieu du décès</b><br><br><b>Qui peut déclarer :</b> la famille, le médecin, ou les pompes funèbres (le plus souvent)<br><br><b>Documents requis :</b><br>• Certificat de décès établi par le médecin<br>• Carte d'identité du défunt<br><br><b>Coût :</b> Gratuit<br><br>📞 Pompes funèbres : elles peuvent effectuer toutes les démarches administratives à votre place, 24h/24.`},
+
+  // CHANGEMENT ADRESSE
+  {kw:['adresse','demenager','demenagement','changer','inscription','domicilier','emmenager','nouvell'],
+   a:`<b>Changement d'adresse / Domiciliation</b><br><br><b>Si vous arrivez à Enghien :</b><br>1. Présentez-vous au guichet Population dans les <b>8 jours</b> suivant votre arrivée<br>2. Apportez : carte d'identité + preuve d'occupation du logement (contrat de bail, acte d'achat ou attestation du propriétaire)<br>3. Un agent de quartier viendra vérifier votre résidence effective<br>4. Inscription confirmée après vérification (quelques jours)<br><br><b>Si vous quittez Enghien :</b> signalez-le à votre nouvelle commune.<br><b>Coût :</b> Gratuit`},
+
+  // PERMIS BATIR
+  {kw:['permis','batir','construire','construction','renovation','extension','agrandissement','bâtiment'],
+   a:`<b>Permis d'urbanisme (bâtir / rénover)</b><br><br><b>Quand est-il requis ?</b><br>• Construction neuve<br>• Extension > 40 m²<br>• Modification de façade ou toiture<br>• Changement de destination d'un bâtiment<br><br><b>Procédure :</b><br>1. Dossier complet (plans architecte agréé, formulaire demande, extrait cadastral)<br>2. Dépôt au service Urbanisme<br>3. Enquête publique si nécessaire<br>4. Décision : <b>60 jours</b> (permis simple) / <b>75 jours</b> (avec enquête)<br><br>📞 Service Urbanisme : 02 397 14 52<br>✉️ urbanisme@enghien-edingen.be`},
+
+  // DECLARATION URBANISTIQUE
+  {kw:['declaration','urbanistique','simplifiee','petits travaux','pergola','abri','annexe','piscine'],
+   a:`<b>Déclaration urbanistique simplifiée</b><br><br>Pour des travaux de moindre importance, une simple déclaration remplace le permis complet.<br><br><b>Travaux concernés :</b><br>• Extensions < 40 m²<br>• Abris de jardin, pergolas<br>• Piscines enterrées<br>• Placement de panneaux solaires (toiture)<br>• Clôtures dans certains cas<br><br><b>Délai :</b> 30 jours (pas d'accusé = accord tacite)<br><b>Coût :</b> Gratuit<br><br>💡 En cas de doute, contactez le service Urbanisme <b>avant</b> de commencer les travaux.`},
+
+  // COLLECTE DECHETS
+  {kw:['collecte','dechets','poubelle','sac','ordures','enlever','ramasse'],
+   a:`<b>Collecte des déchets ménagers — Enghien</b><br><br><b>Calendrier 2025 :</b><br>• 🟢 <b>Sac blanc</b> (déchets résiduels) : <b>toutes les 2 semaines</b><br>• 🟡 <b>Sac jaune PMC</b> (plastiques, métal, cartons boissons) : <b>toutes les 2 semaines</b><br>• 📦 <b>Papiers-cartons</b> : <b>1 fois par mois</b><br>• 🟤 <b>Sac orange</b> (organiques) : <b>toutes les semaines</b><br><br>📅 Calendrier personnalisé par rue : disponible en mairie ou sur <a href="https://www.bewapp.be" target="_blank" style="color:var(--g)">bewapp.be</a><br>⚠️ Sortir les sacs la veille au soir (après 19h)`},
+
+  // ENCOMBRANTS
+  {kw:['encombrant','gros','meuble','vieux','electromenager','enlev','ramassage'],
+   a:`<b>Enlèvement des encombrants</b><br><br><b>Options disponibles :</b><br>✅ <b>Collecte à domicile</b> : demande à faire au minimum <b>5 jours à l'avance</b> — 02 397 14 50 ou formulaire en ligne<br>✅ <b>Recypark</b> : gratuit avec votre carte d'accès (disponible en mairie)<br><br><b>Recypark le plus proche :</b><br>Ath, Rue des Comtes (9 km) — ouvert lun, mer, ven, sam<br><br>⚠️ Les dépôts sauvages sont verbalisés (amende jusqu'à 250 €). Signalez les dépôts illégaux via le formulaire Signalement sur ce site.`},
+
+  // ECLAIRAGE
+  {kw:['eclairage','lampe','lampadaire','lumiere','nuit','poteau','panne'],
+   a:`<b>Éclairage public en panne</b><br><br>Pour signaler une panne :<br><br>1. Notez le <b>numéro du poteau</b> (visible sur le mat, ex: ENG-1247)<br>2. Signalez via :<br>   • Notre formulaire <b>Signalement</b> sur ce site<br>   • Email : voirie@enghien-edingen.be<br>   • Téléphone : 02 397 14 50<br><br><b>Délai d'intervention :</b><br>• Zone dangereuse (carrefour, école) : <b>24h</b><br>• Autres zones : <b>48–72h</b><br><br>✅ Si vous laissez votre email, vous recevrez une notification à la résolution du problème.`},
+
+  // NID DE POULE
+  {kw:['nid','poule','voirie','route','trou','chaussee','trottoir','abime','degradation'],
+   a:`<b>Signalement — Voirie dégradée</b><br><br>Utilisez notre formulaire de <b>Signalement en ligne</b> (bouton rouge sur ce site) ou :<br><br>📧 voirie@enghien-edingen.be<br>📞 02 397 14 50<br><br><b>Informations à fournir :</b><br>• Adresse précise (rue + numéro ou carrefour)<br>• Description du problème<br>• Photo si possible<br><br><b>Délai de traitement :</b><br>• Danger immédiat : 24h<br>• Travaux planifiés : selon programme annuel<br><br>💡 Consultez le programme des travaux annuel sur ce site.`},
+
+  // CPAS
+  {kw:['cpas','aide','social','assistance','financier','revenus','pauvre','difficule','besoin'],
+   a:`<b>CPAS d'Enghien — Aide sociale</b><br><br>Le CPAS accompagne toute personne en difficulté, sans condition de nationalité pour certaines aides.<br><br><b>Services proposés :</b><br>• 💶 Revenu d'intégration sociale (RIS)<br>• 🏥 Aide médicale urgente<br>• 🏠 Accompagnement logement<br>• 💳 Médiation de dettes / accompagnement budgétaire<br>• 🍎 Aide alimentaire / épicerie sociale<br>• 👔 Aide à l'emploi<br>• ⚖️ Consultation juridique gratuite<br><br>📞 CPAS : 02 397 XX XX<br>📍 Rue de Virginal 2, 7850 Enghien<br>🕐 Sur rendez-vous ou accueil sans RDV le matin`},
+
+  // REVENU INTEGRATION
+  {kw:['revenu','integration','ris','minimum','vivre','subsistance','allocati'],
+   a:`<b>Revenu d'intégration sociale (RIS) — 2025</b><br><br><b>Montants mensuels :</b><br>• Catégorie 1 (personne avec charge de famille) : <b>1 626 €</b><br>• Catégorie 2 (isolé) : <b>1 302 €</b><br>• Catégorie 3 (cohabitant) : <b>868 €</b><br><br><b>Conditions :</b><br>• Être Belge ou avoir droit de séjour<br>• Avoir minimum 18 ans<br>• Résider à Enghien<br>• Ressources insuffisantes<br>• Être disponible pour le marché du travail<br><br>📞 CPAS Enghien : 02 397 XX XX — Demandez un entretien`},
+
+  // AIDE MEDICALE
+  {kw:['medicale','medecin','soin','sante','assurance','maladie','hopital','mutuelle'],
+   a:`<b>Aide médicale — CPAS</b><br><br>Si vous n'avez pas de mutuelle ou ne pouvez pas payer vos soins de santé :<br><br>✅ <b>Aide médicale urgente</b> : pour les étrangers en séjour irrégulier — couvre les soins urgents<br>✅ <b>Intervention majorée</b> : le CPAS peut vous aider à bénéficier du statut OMNIO/BIM (réduction sur médicaments et soins)<br><br>📞 Contactez le CPAS : 02 397 XX XX<br>🏥 Hôpital le plus proche : CHU Jolimont-Lobbes (30 km) ou RHMS Ath (15 km)<br>🩺 Médecin de garde (nuit/week-end) : <b>0900 10 833</b>`},
+
+  // MAISON DE REPOS
+  {kw:['maison','repos','senior','vieux','personnes agees','hebergement','saint nicolas','ehpad'],
+   a:`<b>Maison de repos Saint-Nicolas — Enghien</b><br><br>La commune gère une maison de repos agréée pour personnes âgées.<br><br>🏠 <b>Capacité :</b> 140 résidents<br>📍 <b>Adresse :</b> Rue Saint-Nicolas, Enghien<br>📞 <b>Contact :</b> 02 397 XX XX<br><br><b>Services :</b><br>• Chambres individuelles et doubles<br>• Unité Alzheimer / démence<br>• Kinésithérapie, ergothérapie<br>• Animation quotidienne<br>• Soins palliatifs<br><br>💶 <b>Tarif :</b> environ 60–80 €/jour (modulé selon revenus)<br>📝 <b>Liste d'attente :</b> contactez la direction directement`},
+
+  // CRECHE
+  {kw:['crèche','creche','bebe','garde','enfant','maternelle','nourrice','accueil','petite enfance'],
+   a:`<b>Crèche communale — Chez Mélusine</b><br><br>La crèche communale accueille les enfants de 0 à 3 ans.<br><br>🏠 <b>Adresse :</b> Rue d'Hérinnes, Enghien<br>📞 <b>Contact :</b> 02 397 XX XX<br>⏰ <b>Horaires :</b> 7h00 – 18h00 (lun–ven)<br><br><b>Inscription :</b><br>• Demande dès la grossesse recommandée<br>• Documents : acte de naissance, carnets de vaccination, attestation ONE<br><br>💶 <b>Tarif :</b> calculé selon les revenus du ménage (barème ONE)<br>📋 <b>Places :</b> limitées — liste d'attente possible`},
+
+  // BIBLIOTHEQUE
+  {kw:['bibliothèque','bibliotheque','livre','lire','emprunter','lecture','roman','dvd'],
+   a:`<b>Bibliothèque communale d'Enghien</b><br><br>📍 Place Pierre Baudouin, 7850 Enghien<br>📞 02 397 XX XX<br><br><b>Horaires :</b><br>• Mardi : 10h–12h et 15h–19h<br>• Jeudi : 10h–12h et 15h–18h<br>• Samedi : 9h30–12h30<br><br><b>Abonnement annuel :</b><br>• Adulte : 10 €<br>• Moins de 18 ans : gratuit<br>• Senior (65+) : 5 €<br><br>📚 Catalogue en ligne, réservations possibles, accès internet gratuit sur place.<br>🎬 Fonds : livres, revues, CD, DVD, jeux de société`},
+
+  // EPN
+  {kw:['numerique','epn','internet','ordinateur','formation','digital','informatique','wifi','tablette'],
+   a:`<b>Espace Public Numérique (EPN)</b><br><br>Accès gratuit à Internet, formations et aide numérique pour tous.<br><br>📍 Rue d'Hérinnes 17, 7850 Enghien<br>📞 02 397 08 48<br>✉️ epn@enghien-edingen.be<br><br><b>Services gratuits :</b><br>• Accès ordinateurs et Internet<br>• Aide pour smartphone / tablette<br>• Formations (Word, Excel, photo, création site…)<br>• Aide pour les démarches administratives en ligne<br><br>⏰ Horaires sur rendez-vous et en séances collectives<br>👴 Services spécifiques pour seniors et chercheurs d'emploi`},
+
+  // TRANSPORT
+  {kw:['bus','train','transport','tec','gare','navette','mobilite','deplacement'],
+   a:`<b>Transports en commun — Enghien</b><br><br>🚉 <b>Gare ferroviaire d'Enghien</b><br>Trains vers : Bruxelles-Midi (50 min), Mons (35 min), Braine-le-Comte<br>Fréquence : environ 1 train/heure<br><br>🚌 <b>Bus TEC</b><br>• Ligne 54 : Enghien ↔ Ath (25 min)<br>• Ligne 55 : Enghien ↔ Soignies<br>Arrêt principal : Grand-Place d'Enghien<br><br>🚕 <b>Taxi</b><br>Enghien Taxis : 02 395 XX XX<br><br>🌐 Horaires complets : <a href="https://www.letec.be" target="_blank" style="color:var(--g)">letec.be</a> ou app TEC`},
+
+  // PHARMACIE
+  {kw:['pharmacie','medicament','ordonnance','garde pharmacie'],
+   a:`<b>Pharmacies à Enghien</b><br><br>💊 <b>Pharmacie Centrale</b> — Grand-Place<br>Tél : 02 395 XX XX<br>Lun–Ven 9h–12h & 14h–18h30, Sam 9h–12h<br><br>💊 <b>Pharmacie de la Victoire</b> — Rue de Mons<br>Tél : 02 395 XX XX<br>Lun–Ven 8h30–12h30 & 14h–19h<br><br>📞 <b>Pharmacie de garde 24h/24 :</b><br>Numéro gratuit : <b>0800 16 660</b><br>Ou : <a href="https://www.pharmacie.be" target="_blank" style="color:var(--g)">pharmacie.be</a>`},
+
+  // FISCALITE
+  {kw:['taxe','impot','precompte','immobilier','fiscal','additionnelle','revenue'],
+   a:`<b>Fiscalité communale — Enghien 2025</b><br><br>💶 <b>Additionnelles à l'IPP :</b> 8,0 % (sur l'impôt fédéral des personnes physiques)<br>💶 <b>Centimes additionnels au précompte immobilier :</b> 2 800 centimes<br><br><b>Autres taxes communales :</b><br>• Taxe sur les secondes résidences : 1 000 €/an<br>• Taxe sur les bâtisses abandonnées<br>• Taxe sur les déchets ménagers (incluse dans la redevance régionale)<br><br>📞 Service Fiscalité : 02 397 14 50<br>📧 taxes@enghien-edingen.be<br><br>💡 Contestation possible dans les 30 jours suivant la notification.`},
+
+  // ELECTIONS
+  {kw:['election','voter','vote','liste','electorale','scrutin','elire','procuration'],
+   a:`<b>Élections — Informations pratiques</b><br><br><b>Inscription sur liste électorale :</b><br>• Automatique pour les Belges domiciliés à Enghien<br>• Européens résidents : inscription volontaire au guichet Population<br>• Non-Belges hors UE : pas de droit de vote aux élections fédérales/régionales<br><br><b>Procuration :</b><br>• Vous ne pouvez pas vous déplacer ? Donnez procuration à un autre électeur d'Enghien<br>• Formulaire disponible au guichet Population<br>• Médecin requis pour incapacité physique<br><br>📞 Questions : 02 397 14 50`},
+
+  // LOGEMENT SOCIAL
+  {kw:['logement','social','hlm','appartement','louer','loyer','liste attente','logement public'],
+   a:`<b>Logement social — Enghien</b><br><br>Le logement social est géré par la <b>SLSP La Maison Enghiennoise</b>.<br><br>📞 02 395 XX XX<br>📍 Rue de Virginal 4, Enghien<br><br><b>Pour faire une demande :</b><br>1. Constituer un dossier avec : identité, revenus, situation familiale<br>2. S'inscrire sur liste d'attente<br>3. Délai d'attribution : variable (souvent 2–5 ans selon logement)<br><br>⚠️ Conditions de revenus obligatoires.<br>💡 En urgence, contactez le CPAS pour une aide logement immédiate.`},
+
+  // PARC D'ENGHIEN
+  {kw:['parc','jardin','chateau','promenade','verdure','nature','balade','tourisme','visiter'],
+   a:`<b>Parc d'Enghien</b><br><br>L'un des plus beaux parcs historiques de Belgique (180 hectares).<br><br>🌳 <b>Accès :</b> Rue du Parc, 7850 Enghien — entrée principale<br>⏰ <b>Ouverture :</b> 7j/7, toute l'année (horaires selon saison)<br>🎟️ <b>Tarifs :</b> gratuit pour les résidents d'Enghien (sur présentation carte d'identité)<br><br><b>Visites guidées :</b><br>📅 Tous les 3e dimanche du mois (avril–octobre)<br>Réservation : tourisme@enghien-edingen.be<br><br>🦋 Arboretum, labyrinthe, étangs, chapelles historiques`},
+
+  // MARCHE HEBDO
+  {kw:['marche','marché','brocante','vente','commerce','stand','ambulant'],
+   a:`<b>Marchés à Enghien</b><br><br>🛒 <b>Marché hebdomadaire :</b><br>Chaque <b>vendredi matin</b> — Grand-Place d'Enghien<br>De 7h00 à 13h00<br>Produits frais, maraîchers, boucherie, fromages, fleurs…<br><br>🎨 <b>Marché artisanal :</b><br>2e dimanche du mois (mai–septembre)<br>Place Saint-Nicolas, 9h–17h<br><br>🧸 <b>Brocante annuelle :</b><br>1er dimanche d'août — Grand-Place<br><br>📝 <b>Demande de stand :</b><br>commerce@enghien-edingen.be ou 02 397 14 50`},
+
+  // SIGNALEMENT DEPOT SAUVAGE
+  {kw:['depot','sauvage','illegal','abandon','poubelle sauvage','ordures rues'],
+   a:`<b>Signaler un dépôt sauvage</b><br><br>Les dépôts sauvages sont une infraction sanctionnée par le Code de l'Environnement wallon.<br><br>📱 <b>Comment signaler :</b><br>• Via notre formulaire <b>Signalement</b> sur ce site<br>• Email : voirie@enghien-edingen.be<br>• Tel : 02 397 14 50<br><br>📸 Joignez une photo et l'adresse exacte si possible.<br><br><b>Sanctions pour l'auteur du dépôt :</b> amende de 50 à 250 € + frais d'enlèvement<br><b>Délai d'enlèvement :</b> 3–5 jours ouvrables après signalement`},
+
+  // URGENCES GENERALES
+  {kw:['urgence','112','100','danger','feu','accident','secours'],
+   a:`<b>Numéros d'urgence</b><br><br>🚨 <b>Urgences générales :</b> <span style="font-size:1.1em;font-weight:800">112</span><br>🚑 <b>Ambulance / SMUR :</b> 100<br>👮 <b>Police :</b> 101<br>🔥 <b>Pompiers :</b> 100<br>🩺 <b>Médecin de garde :</b> 0900 10 833<br>💊 <b>Pharmacie de garde :</b> 0800 16 660<br>☠️ <b>Centre anti-poison :</b> 070 245 245<br>🧒 <b>Enfants disparus :</b> 116 000<br>📞 <b>Commune d'Enghien :</b> 02 397 14 50<br><br>⚠️ Pour toute urgence vitale, appelez le <b>112</b> sans attendre.`},
+
+  // INSCRIPTION ECOLE
+  {kw:['ecole','primaire','secondaire','inscription','scolariser','rentree','eleve','etudes'],
+   a:`<b>Inscription scolaire — Enghien</b><br><br><b>Écoles primaires à Enghien :</b><br>• École communale du Centre (Rue de l'École 1)<br>• École communale de Marcq<br>• École catholique Saint-Pierre<br><br><b>Inscription :</b><br>• Ouverte du 1er février au 30 juin pour l'année suivante<br>• Documents : acte de naissance, carnet de vaccination, certificat de résidence<br>• En personne à l'école ou via formulaire en ligne<br><br><b>Zones scolaires :</b> Enghien, Marcq, Petit-Enghien<br>📞 Service Enseignement : 02 397 14 50<br>💡 Pour les secondaires : IPES d'Enghien, Athénée de Soignies`},
+
+  // BRUIT / VOISINAGE
+  {kw:['bruit','voisin','nuisance','tapage','trouble','nuit','musique','fete'],
+   a:`<b>Troubles de voisinage — Bruit</b><br><br><b>Bruit de nuit (22h–7h) :</b><br>📞 Police locale : <b>101</b> pour intervention immédiate<br><br><b>Nuisances récurrentes :</b><br>• Déposez une plainte à la Police locale<br>• La commune peut intervenir via le règlement de police administrative<br><br><b>Règlement général de police d'Enghien :</b><br>• Musique amplifiée interdite après 22h sauf autorisation<br>• Travaux bruyants : lun–sam 7h–20h uniquement<br><br>📞 Service Travaux pour les chantiers : 02 397 14 50<br>💡 En cas de conflit de voisinage persistant, le CPAS propose une <b>médiation gratuite</b>.`},
+
+  // PERMIS LOTIR
+  {kw:['lotir','lotissement','diviser','parcelle','terrain','cadastre','geometre'],
+   a:`<b>Permis de lotir / Lotissement</b><br><br>Requis pour diviser un terrain en 2 lots ou plus destinés à la construction.<br><br><b>Procédure :</b><br>1. Demande via un géomètre-expert agréé<br>2. Plans de lotissement + formulaire de demande<br>3. Éventuelle enquête publique<br>4. Délai : <b>75 jours</b><br><br><b>Documents requis :</b><br>• Titre de propriété<br>• Plan cadastral<br>• Plans du géomètre<br>• Extrait de matrice cadastrale<br><br>📞 Service Urbanisme : 02 397 14 52`},
+
+  // RENOVATION ENERGETIQUE
+  {kw:['renovation','isolation','prime','energie','solaire','panneau','pompe chaleur','subside'],
+   a:`<b>Primes et aides à la rénovation énergétique</b><br><br>En Wallonie, plusieurs aides sont disponibles :<br><br>🏠 <b>Primes Habitation (SPW) :</b><br>• Isolation toiture, murs, planchers<br>• Remplacement châssis<br>• Chaudière à condensation, pompe à chaleur<br>• Panneaux photovoltaïques<br><br>💻 <b>Demande en ligne :</b> <a href="https://www.wallonie.be" target="_blank" style="color:var(--g)">wallonie.be</a><br>📞 InfoConseil Énergie : 0800 11 901 (gratuit)<br><br>💡 Pour les ménages à faibles revenus : primes majorées jusqu'à 90% des travaux via REV (Réhabilitation Energétique des Logements)`},
+
+  // CHIENS ANIMAUX
+  {kw:['chien','chat','animal','registre','puce','laisse','dejecter','excrements'],
+   a:`<b>Animaux de compagnie — Réglementation</b><br><br>🐕 <b>Chiens :</b><br>• Identification par puce électronique obligatoire<br>• Enregistrement dans la base nationale (vétérinaire)<br>• Laisse obligatoire dans les lieux publics<br>• Ramassage des déjections obligatoire (amende 50–250 €)<br>• Races dangereuses : attestation comportementale requise<br><br>🐈 <b>Chats :</b><br>• Stérilisation fortement encouragée<br>• Colonies de chats errants : contact CPAS ou service Environnement<br><br>📞 Fourrière : Ath (02 395 XX XX)<br>💡 Pour les abandons ou maltraitances : Société Protectrice des Animaux 02 245 28 30`},
+
+  // MEDIATION DETTES
+  {kw:['dette','remboursement','surendettement','credit','mediaite','financier','difficulte argent'],
+   a:`<b>Médiation de dettes — CPAS</b><br><br>Vous avez des difficultés à payer vos factures ou rembourser vos crédits ?<br><br><b>Le CPAS vous offre :</b><br>✅ Analyse complète de votre situation financière<br>✅ Plan d'apurement négocié avec vos créanciers<br>✅ Accompagnement budgétaire personnalisé<br>✅ Règlement collectif de dettes (procédure judiciaire si nécessaire)<br><br>📞 CPAS Enghien : 02 397 XX XX<br>🔒 Tous les entretiens sont <b>confidentiels</b><br>💡 N'attendez pas d'être en saisie pour demander de l'aide !`}
+];
+
+let cbOpen=false;
+let firstOpen=true;
+
+function toggleChat(){
+  cbOpen=!cbOpen;
+  document.getElementById('cb-win').classList.toggle('open',cbOpen);
+  const notif=document.querySelector('.cb-notif');
+  if(cbOpen&&notif) notif.style.display='none';
+  if(cbOpen&&firstOpen){ firstOpen=false; cbWelcome(); }
+}
+
+function openChatWithMsg(msg){
+  if(!cbOpen){ cbOpen=true; document.getElementById('cb-win').classList.add('open'); }
+  const notif=document.querySelector('.cb-notif');
+  if(notif) notif.style.display='none';
+  if(firstOpen){ firstOpen=false; }
+  addCbMsg('user',msg);
+  setTimeout(()=>cbRespond(msg),600);
+}
+
+function cbWelcome(){
+  addCbMsg('bot',`Bonjour 👋 Je suis l'assistant de la commune d'Enghien-Edingen.<br>Je connais toutes les démarches, services et informations pratiques. Posez-moi n'importe quelle question !`,true,`📋 Documents|🏗️ Permis & Travaux|🤝 CPAS & Aide|♻️ Déchets & Voirie|📚 Culture & Loisirs|ℹ️ Infos pratiques`.split('|'));
+}
+
+function norm(s){
+  return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9\s]/g,' ');
+}
+
+function cbRespond(q){
+  const nq=norm(q);
+  let best=null,score=0;
+  for(const e of QA){
+    let s=0;
+    for(const k of e.kw){ if(nq.includes(k)) s+=k.length>4?3:1; }
+    if(s>score){score=s;best=e;}
+  }
+
+  // Category shortcuts
+  const cats={
+    '📋 documents':'carte identite passeport certificat casier composition',
+    '🏗️ permis & travaux':'permis batir urbanisme declaration voirie',
+    '🤝 cpas & aide':'cpas aide sociale revenu integration dette',
+    '♻️ déchets & voirie':'collecte dechets poubelle encombrant eclairage nid',
+    '📚 culture & loisirs':'bibliotheque parc marche ecole transport',
+    'ℹ️ infos pratiques':'horaire adresse contact urgence pharmacie'
   };
-
-  function addMsg(text, who, delay = 0) {
-    const body = document.getElementById('chatBody');
-    const msg = document.createElement('div');
-    msg.className = `msg ${who}`;
-    msg.style.animationDelay = delay + 's';
-    msg.innerHTML = `<div class="msg-bubble">${text}</div><div class="msg-time">Maintenant</div>`;
-    body.appendChild(msg);
-    body.scrollTop = body.scrollHeight;
+  const catKey=Object.keys(cats).find(c=>norm(q).includes(norm(c)));
+  if(catKey&&score<2){
+    const chips=cats[catKey].split(' ').slice(0,5).map(w=>{
+      const lbl={carte:"Carte d'identité",passeport:"Passeport",certificat:"Certificat résidence",casier:"Casier judiciaire",composition:"Composition ménage",permis:"Permis de bâtir",batir:"Permis de bâtir",urbanisme:"Urbanisme",declaration:"Déclaration simplifiée",voirie:"Voirie",collecte:"Collecte déchets",dechets:"Déchets",poubelle:"Poubelle",encombrant:"Encombrants",eclairage:"Éclairage public",nid:"Nid de poule",cpas:"CPAS",aide:"Aide sociale",revenu:"Revenu intégration",integration:"Revenu intégration",dette:"Médiation dettes",bibliotheque:"Bibliothèque",parc:"Parc d'Enghien",marche:"Marchés",ecole:"Inscriptions scolaires",transport:"Transports",horaire:"Horaires",adresse:"Adresse commune",contact:"Contacts",urgence:"Urgences",pharmacie:"Pharmacie"}[w]||w;
+      return lbl;
+    });
+    addCbMsg('bot','Sur quel sujet précis puis-je vous aider ?',true,chips);
+    return;
   }
 
-  function sendChip(el) {
-    const text = el.textContent.replace(/^[^\s]+\s/, '').trim();
-    addMsg(text, 'user');
-    const key = text.toLowerCase().replace(/[éè]/g,'e').replace(/[àâ]/g,'a');
-    setTimeout(() => {
-      const reply = Object.keys(responses).find(k => key.includes(k)) || 'default';
-      addMsg(responses[reply], 'bot');
-    }, 700);
+  if(score===0||!best){
+    addCbMsg('bot',`Je n'ai pas trouvé de réponse précise pour "<b>${q}</b>".<br><br>Essayez d'être plus précis, ou contactez-nous directement :<br>📞 02 397 14 50<br>✉️ info@enghien-edingen.be<br>🕐 Lun–Ven 8h15–12h`,true,['Horaires','Carte d\'identité','Rendez-vous','Déchets','Urgences']);
+    return;
   }
+  addCbMsg('bot',best.a,true,['Autre question','📅 Rendez-vous','📄 Document','🚦 Signalement']);
+}
 
-  function sendMsg() {
-    const input = document.getElementById('chatInput');
-    const text = input.value.trim();
-    if (!text) return;
-    addMsg(text, 'user');
-    input.value = '';
-    const key = text.toLowerCase().replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ùû]/g,'u');
-    setTimeout(() => {
-      const reply = Object.keys(responses).find(k => key.includes(k)) || 'default';
-      addMsg(responses[reply], 'bot');
-    }, 700);
+function addCbMsg(who,html,showTime=true,chips=[]){
+  const msgs=document.getElementById('cbMsgs');
+  const div=document.createElement('div');
+  div.className='cb-msg '+who;
+  const now=new Date();
+  const t=now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');
+  div.innerHTML=`<div class="cb-bbl">${html}</div>${showTime?`<div class="cb-time">${t}</div>`:''}`;
+  if(chips.length){
+    const cr=document.createElement('div');
+    cr.className='cb-chips';
+    chips.forEach(c=>{
+      const btn=document.createElement('button');
+      btn.className='cb-chip';
+      btn.textContent=c;
+      btn.onclick=()=>{
+        if(c==='📅 Rendez-vous'){openModal('rdv');return;}
+        if(c==='📄 Document'){openModal('doc');return;}
+        if(c==='🚦 Signalement'){openModal('signal');return;}
+        addCbMsg('user',c);
+        setTimeout(()=>cbRespond(c),600);
+      };
+      cr.appendChild(btn);
+    });
+    div.appendChild(cr);
   }
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function cbSend(){
+  const inp=document.getElementById('cbInput');
+  const v=inp.value.trim();
+  if(!v)return;
+  addCbMsg('user',v);
+  inp.value='';
+  const typing=document.createElement('div');
+  typing.className='cb-msg bot cb-typing';
+  typing.innerHTML='<div class="cb-bbl"> </div>';
+  document.getElementById('cbMsgs').appendChild(typing);
+  document.getElementById('cbMsgs').scrollTop=99999;
+  setTimeout(()=>{ typing.remove(); cbRespond(v); },700);
+}
+
+function setLang(l){
+  document.querySelectorAll('.lang').forEach(b=>b.classList.toggle('on',b.textContent===l.toUpperCase()));
+}
+
+function doSearch(){
+  const q=document.getElementById('siteSearch').value.trim();
+  if(q){ openChatWithMsg(q); document.getElementById('siteSearch').value=''; }
+}
 </script>
 </body>
 </html>
