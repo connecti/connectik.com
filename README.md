@@ -6,11 +6,16 @@
 
 **Le site n’est pas encore publié sur Internet.** Il faut le mettre en ligne et connecter les comptes réels Stripe et Cal.com avant de pouvoir accepter de vrais clients.
 
-## Comment voir la démo — sans publier quoi que ce soit
+## Comment voir la vraie application — sans la publier
 
-Aucune mise en ligne et aucune commande ne sont nécessaires. Dans le dossier du projet, **double-cliquer sur le fichier `VOIR-LA-DEMO.html`**. La démo s’ouvre directement dans le navigateur, même sans connexion Internet.
+Dans le dossier du projet, lancer :
 
-On peut cliquer sur les trois offres et essayer tout le parcours jusqu’à la confirmation. C’est une simulation : aucun paiement réel n’est effectué.
+```bash
+npm install
+npm run dev
+```
+
+Ouvrir ensuite **http://localhost:3000** dans le navigateur. C’est la véritable application Next.js : le parcours, les formulaires et les routes de paiement sont ceux du projet, pas une copie HTML séparée. Rien n’est publié sur Internet : l’adresse n’est accessible que sur l’ordinateur qui lance l’application. Sans clés Stripe, le dernier bouton utilise le mode de démonstration et aucun paiement réel n’est effectué.
 
 ## Ce qui est déjà terminé
 
